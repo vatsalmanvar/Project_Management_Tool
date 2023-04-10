@@ -1,0 +1,56 @@
+// user routes
+
+
+(1) Create user
+no login
+localhost:5000/api/auth/createuser
+
+(2) get a user data
+login
+localhost:5000/api/auth/getuser
+
+(3) authenticate user
+no login
+localhost:5000/api/auth/login
+
+(4) get all user
+login
+localhost:5000/api/auth/getalluser
+
+
+
+// project routes
+
+(1) Create project
+login
+localhost:5000/api/project/create-project
+
+(2) Add admin and developer
+login
+localhost:5000/api/project/add-member
+it will take the all new admin and developer array and add it to the project
+
+
+
+// tickets routes
+
+(1) Create tickets
+login
+locahost:5000/api/project/new-ticket
+It will create the new ticket 
+
+(2) all tickets
+login
+localhost:5000/api/project/all-tickets
+It will fetch all tickets
+
+(3) Delete tickets
+login
+locahost:5000/api/project/delete-ticket/{:id}
+It will delete the new ticket 
+
+(4) Update tickets
+login
+locahost:5000/api/project/delete-ticket/{:id}
+It will delete the new ticket
+
