@@ -7,6 +7,7 @@ export const Navbar = () => {
     let navigate = useNavigate();
     const handleLogout = ()=>{
         localStorage.removeItem('token');
+        localStorage.removeItem('PMTusername')
         navigate("/login");
     }
 
@@ -32,7 +33,11 @@ export const Navbar = () => {
                 <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
                 <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
             </form>
-            : <button onClick={handleLogout} className="btn btn-primary mx-1">Logout</button>   
+            :
+            <>
+            <span className="badge bg-dark">{localStorage.getItem('PMTusername')}</span>
+            <button onClick={handleLogout} className="btn btn-primary mx-1">Logout</button>   
+            </>
             }  
             </div>
         </div>

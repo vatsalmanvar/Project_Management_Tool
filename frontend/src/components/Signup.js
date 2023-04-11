@@ -8,7 +8,7 @@ const Signup = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("localhost:5000/api/auth/register", {
+        const response = await fetch("http://localhost:5000/api/auth/register", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,6 +20,7 @@ const Signup = (props) => {
         if (json.success){
             // Save the auth token and redirect
             localStorage.setItem('token', json.authtoken); 
+            localStorage.setItem('PMTusername', credentials.name);
             navigate("/");
             props.showAlert("Account Created Successfully", "success")
         }
