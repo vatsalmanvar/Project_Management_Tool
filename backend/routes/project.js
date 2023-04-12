@@ -150,6 +150,22 @@ router.get('/get-project', fetchuser, [
     }
 })
 
+// ROUTE 3.1: Get all projects for specific user he is involved in : GET '/api/project/get-all-projects' login required
+router.get('/get-all-projects', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const projects = await Project.find({ $or : [
+            {admin: { $in : userId }},
+            {developers: { $in : userId }}
+        ]  });
+
+        res.status(200).send(projects);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error Occured")
+    }
+})
+
 // ROUTE 4: delete project: DELETE '/api/project/delete-project' login required
 router.delete('/delete-project', fetchuser, [
     body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
