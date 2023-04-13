@@ -25,14 +25,21 @@ function Projects() {
   
   return (
     <div className="container">
-      <div className="row my-3">
-        <h2>All projects you are involved in</h2>
-        <div className="container mx-3">
-          {projects.length===0 && "No PROJECTS to display"}
-        </div>
-        {projects.map((note)=>{
-          return <ProjectItem />
-         })}
+      <h2>All projects you are involved in</h2>
+      <div className="row">
+        
+        {
+          projects.length===0
+          ?
+          <div><p>You are involved with none of the projects</p></div>
+          :
+          projects.map((proj, index)=>{
+            return (<div className="col-md-4" key={index}>
+              <ProjectItem project={proj} />
+            </div>)
+          })
+            
+        }
     </div>
     </div>
   )
