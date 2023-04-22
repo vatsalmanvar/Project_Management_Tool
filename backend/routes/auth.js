@@ -109,7 +109,7 @@ router.get('/getuser', fetchuser, async(req, res) => {
 // ROUTE 4: Get all user name and email using: GET "/api/auth/get-all-user". Login required
 router.get('/get-all-user', fetchuser, async(req, res) => {
   try {
-    const user = await User.find().select("-password -_id -date -__v")  
+    const user = await User.find().select("-password -date -__v")  
     res.send(user);
   } catch (error) {
     console.error(error.message);

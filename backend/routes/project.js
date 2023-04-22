@@ -124,18 +124,16 @@ router.put('/modify-project', fetchuser, [
 })
 
 // ROUTE 3: Get project: GET '/api/project/get-project' login required
-router.get('/get-project', fetchuser, [
-    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
-], async (req, res) => {
+router.get('/get-project/:id', fetchuser, async (req, res) => {
     try {
-        const {projectName} = req.body;
+        const {id} = req.params;
         // if upper conditions are not matched throw the bad request with the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const project = await Project.findOne({projectName});
+        const project = await Project.findById(id);
         if(!project){return res.status(404).send("Project does not exist")}
 
         let userWantToFetch = req.user.id;
