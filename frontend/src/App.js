@@ -6,7 +6,9 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import About from "./components/About";
+import ProjectDetail from './components/ProjectDetail';
 import {useState} from 'react';
+
 
 function App() {
 
@@ -34,6 +36,7 @@ function App() {
             <Route exact path="/about" element={<About/>}></Route>
             <Route exact path="/login" element={<Login showAlert={showAlert}/>}></Route>
             <Route exact path="/signup" element={<Signup showAlert={showAlert}/>}></Route>
+            <Route exact path="/project/:projectId" element={<ProjectDetail showAlert={showAlert}/>}></Route>
           </Routes>
         </div>
       </BrowserRouter>

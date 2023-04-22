@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ProjectItem from './ProjectItem';
+import { Link } from "react-router-dom";
 
 function Projects() {
     
@@ -35,7 +36,7 @@ function Projects() {
           :
           projects.map((proj, index)=>{
             return (<div className="col-md-4" key={index}>
-              <ProjectItem project={proj} />
+              <Link to={`/project/${proj._id}`}> <ProjectItem project={proj} /> </Link>
             </div>)
           })
             
@@ -46,3 +47,5 @@ function Projects() {
 }
 
 export default Projects
+
+// 
