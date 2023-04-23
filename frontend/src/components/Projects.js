@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ProjectItem from './ProjectItem';
 import { Link } from "react-router-dom";
+import projectContext from '../context/project/projectContext';
 
-function Projects() {
+const Projects = (props) => {
     
+    const context = useContext(projectContext);
+    const {fetchUsers} = context;
     const [projects, setProjects] = useState([]);
-
     const fetchAllProject = async()=>{
       const responce = await fetch(`http://localhost:5000/api/project/get-all-projects`, {
         method: 'GET',
@@ -16,10 +18,11 @@ function Projects() {
     });
     const json = await responce.json();
     setProjects(json)
-    console.log(json)
+    //console.log(json)
     }
 
     useEffect(() => {
+      fetchUsers();
       fetchAllProject();
       // eslint-disable-next-line
     },[])

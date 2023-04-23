@@ -1,33 +1,16 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useContext} from 'react'
 import { useParams } from 'react-router-dom'
+import projectContext from '../context/project/projectContext';
 
 
-function ProjectDetail() {
+const ProjectDetail  = (props) => {
+
+    const context = useContext(projectContext);
+    const {userIdToName} = context;
     const params = useParams();
-    const projectId = params.projectId;
-    console.log(projectId);
-
+    const [projectId] = useState(params.projectId)
+    //console.log(projectId);
     const [project, setProject] = useState(null);
-    const [users, setUsers] = useState([])
-
-    const userIdToName = (userId)=>{
-      for (let index = 0; index < users.length; index++) {
-        if(users[index]._id === userId){
-          return users[index].name;
-        }
-      }
-    }
-
-    const fetchUsers = async()=>{
-      const responce1 = await fetch(`http://localhost:5000/api/auth/get-all-user`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'auth-token' : localStorage.getItem('token')
-        }
-      });
-      setUsers(await responce1.json())
-    }
 
     const fetchProject = async()=>{
       const responce = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
@@ -52,11 +35,9 @@ function ProjectDetail() {
     }
 
     useEffect(() => {
-      fetchUsers();
       fetchProject();
-      //console.log("UseEffect executed")
       // eslint-disable-next-line
-    },[project, users])
+    },[])
 
 
   return (

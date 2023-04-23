@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import ProjectDetail from './components/ProjectDetail';
 import {useState} from 'react';
+import ProjectState from './context/project/ProjectState';
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
 
   return (
     <>
-    {/* Context Api */}
+    <ProjectState>
       <BrowserRouter>
         <Navbar/>
         <Alert alert={alert} />
@@ -40,7 +41,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
-      {/* Context api ends */}
+    </ProjectState>
     </>
   );
 }
