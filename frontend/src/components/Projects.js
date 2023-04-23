@@ -31,7 +31,6 @@ const Projects = (props) => {
     <div className="container">
       <h2>All projects you are involved in</h2>
       <div className="row">
-        
         {
           projects.length===0
           ?
@@ -42,7 +41,6 @@ const Projects = (props) => {
               <Link to={`/project/${proj._id}`}> <ProjectItem project={proj} /> </Link>
             </div>)
           })
-            
         }
     </div>
     </div>

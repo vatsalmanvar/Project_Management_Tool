@@ -318,13 +318,12 @@ router.put('/modify-ticket/:id', fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 5: GET all ticket for a particular project: GET '/api/project/get-all-tickets' login required
-router.get('/get-all-tickets', fetchuser
+// ROUTE 5: GET all ticket for a particular project: GET '/api/project/get-all-tickets/:id' login required
+router.get('/get-all-tickets/:id', fetchuser
 , async (req, res) => {
     try {
-        const {projectName} = req.body;
         let userWantToFetchAllTicket = req.user.id;
-        let project = await Project.findOne({projectName})
+        let project = await Project.findById(req.params.id)
         if(!project){return res.status(600).send("Project with this name does not exist")}
 
         if(!project.admin.includes(userWantToFetchAllTicket) && !project.developers.includes(userWantToFetchAllTicket)){

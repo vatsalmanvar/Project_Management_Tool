@@ -6,11 +6,23 @@ import projectContext from '../context/project/projectContext';
 const ProjectDetail  = (props) => {
 
     const context = useContext(projectContext);
-    const {userIdToName} = context;
+    const {users, fetchUsers, userIdToName} = context;
     const params = useParams();
     const [projectId] = useState(params.projectId)
-    //console.log(projectId);
     const [project, setProject] = useState(null);
+    const [tickets, setTickets] = useState([]);
+
+    const fetchTickets = async()=>{
+      const responce = await fetch(`http://localhost:5000/api/project/get-all-tickets/${projectId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        }
+      });
+      const tick = await responce.json();
+      setTickets(tick);
+    }
 
     const fetchProject = async()=>{
       const responce = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
@@ -31,11 +43,17 @@ const ProjectDetail  = (props) => {
         proj.developers[index] = userIdToName(proj.developers[index]);
       }
       
+      // changing the date format
+      const date = new Date(proj.date);
+      proj.date = `Created on: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+
       setProject(proj);
     }
 
     useEffect(() => {
+      if(users.length === 0) fetchUsers();
       fetchProject();
+      fetchTickets();
       // eslint-disable-next-line
     },[])
 
@@ -58,14 +76,14 @@ const ProjectDetail  = (props) => {
 
         <h5 className="card-title">Created By</h5>
         <p className="card-text">
-        <span className="badge text-bg-light">{project.createdBy}</span>
+        <span className="badge text-bg-dark mx-1">{project.createdBy}</span>
         </p>
 
         <h5 className="card-title">Admin</h5>
         <p className="card-text">
           {project.admin.map((proj, index)=>{
             return (
-              <span className="badge text-bg-light" key={index}>{proj}</span>)
+              <span className="badge text-bg-dark mx-1" key={index}>{proj}</span>)
           })}
         </p>
         
@@ -73,9 +91,25 @@ const ProjectDetail  = (props) => {
         <p className="card-text">
           {project.developers.map((proj, index)=>{
             return (
-              <span className="badge text-bg-light" key={index}>{proj}</span>)
+              <span className="badge text-bg-dark mx-1" key={index}>{proj}</span>)
           })}
         </p>
+
+        <h5 className="card-title">Tickets</h5>
+        <div className="list-group">
+          {
+            tickets.length===0
+            ?
+            <div><p>None of tickets are created</p></div>
+            :
+            tickets.map((tick, index)=>{
+              return (
+              <a key={index} href={`/`} className="list-group-item list-group-item-action">{tick.ticketNumber}</a>
+              )
+            })
+          }
+        </div>
+        
 
         <a href="/" className="btn btn-primary">Go somewhere</a>
       </div>
