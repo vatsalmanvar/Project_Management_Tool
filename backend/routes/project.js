@@ -260,14 +260,14 @@ router.delete('/delete-ticket/:id', fetchuser
 router.get('/get-ticket/:id', fetchuser
 , async (req, res) => {
     try {
-        let ticket = await Ticket.findOne({ticketNumber: req.params.id});
+        let ticket = await Ticket.findOne({_id: req.params.id});
         if(!ticket) {return res.status(404).send("Ticket Not Found")}
         
-        let userWantToDelete = req.user.id;
+        let userWantToRead = req.user.id;
         let project = await Project.findById(ticket.projectName)
         if(!project){return res.status(600).send("Database Error")}
 
-        if(!project.admin.includes(userWantToDelete) && !project.developers.includes(userWantToDelete)){
+        if(!project.admin.includes(userWantToRead) && !project.developers.includes(userWantToRead)){
             return res.status(401).send("Not Allowed")
         }
         

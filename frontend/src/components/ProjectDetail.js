@@ -49,13 +49,14 @@ const ProjectDetail  = (props) => {
 
       setProject(proj);
     }
-
+    
     useEffect(() => {
+      //console.log(users.length);
       if(users.length === 0) fetchUsers();
       fetchProject();
       fetchTickets();
       // eslint-disable-next-line
-    },[])
+    },[users])
 
 
   return (
@@ -104,7 +105,7 @@ const ProjectDetail  = (props) => {
             :
             tickets.map((tick, index)=>{
               return (
-              <a key={index} href={`/`} className="list-group-item list-group-item-action">{tick.ticketNumber}</a>
+              <a key={index} href={`/ticket/${tick._id}`} className="list-group-item list-group-item-action">{tick.ticketNumber}</a>
               )
             })
           }
