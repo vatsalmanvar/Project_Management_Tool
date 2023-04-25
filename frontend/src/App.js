@@ -10,6 +10,7 @@ import About from "./components/About";
 import ProjectDetail from './components/ProjectDetail';
 import ProjectState from './context/project/ProjectState';
 import TicketDetail from './components/TicketDetail';
+import CreateProject from './components/CreateProject';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route exact path="/signup" element={<Signup showAlert={showAlert}/>}></Route>
             <Route exact path="/project/:projectId" element={<ProjectDetail showAlert={showAlert}/>}></Route>
             <Route exact path="/ticket/:ticketId" element={<TicketDetail showAlert={showAlert}/>}></Route>
+            <Route exact path="/create-project" element={<CreateProject showAlert={showAlert}/>}></Route>
           </Routes>
         </div>
       </BrowserRouter>

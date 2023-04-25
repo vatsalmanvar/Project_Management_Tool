@@ -69,8 +69,6 @@ const TicketDetail  = (props) => {
         <span className="badge text-bg-dark mx-1">{ticket.assignedTo}</span>
         </p>
 
-
-
         <a href="/" className="btn btn-primary">Go somewhere</a>
       </div>
       <div className="card-footer text-body-secondary">

@@ -1,7 +1,15 @@
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
 import Projects from './Projects';
+import projectContext from '../context/project/projectContext';
 
 function Home() {
+  const context = useContext(projectContext);
+  const {users, fetchUsers} = context;
+
+  useEffect(() => {
+    if(users.length === 0) fetchUsers();
+  }, [])
+
   return (
     <div className="container">
       <Projects/>
