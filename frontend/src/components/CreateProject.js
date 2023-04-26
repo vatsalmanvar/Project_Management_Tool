@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react'
 import projectContext from '../context/project/projectContext';
 
-
 const CreateProject = () => {
 
     const context = useContext(projectContext);
@@ -16,7 +15,7 @@ const CreateProject = () => {
       //console.log("HandleOnChange ran")
       setSearchInput(e.target.value)
       if(!e.target.value) return setSearchResults([]);
-      const resultsArray = users.filter(users => users.email.includes(e.target.value))
+      const resultsArray = users.filter(users => (users.email.includes(e.target.value)))
       //console.log(e.target.value, resultsArray)
       setSearchResults(resultsArray);
     }
@@ -26,6 +25,11 @@ const CreateProject = () => {
       if(!admin.includes(e.target.value)) setAdmin(admin.concat(e.target.value));
       setSearchInput(initialSearchInput);
       setSearchResults([]);
+    }
+
+    const hadleRemoveFromAdmin = (e) => {
+      console.log(e);
+      setAdmin(admin.filter(it => it!==e.target.value))
     }
 
     useEffect(() => {
@@ -40,14 +44,15 @@ const CreateProject = () => {
             <div className="mb-3">
               <label htmlFor="searchInput" className="form-label">Search Email</label>
               <input type="text" placeholder="" className="form-control" value={searchInput}  id="searchInput" name="searchInput" onChange={handleSearchChange} />
+            
+              {
+                searchResults.map((it, index)=>{
+                  return(
+                    <button key={index} className="list-group-item list-group-item-action" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</button>
+                  )
+                })
+              }
             </div>
-            {
-              searchResults.map((it, index)=>{
-                return(
-                  <button key={index} className="list-group-item list-group-item-action" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</button>
-                )
-              })
-            }
 
             <h3>ADMINS</h3>
             {
@@ -56,7 +61,12 @@ const CreateProject = () => {
               <h5>No admin added</h5>
               :
               Object.values(admin).map((it, index)=>{
-                return(<span key={index} className="badge text-bg-dark mx-1">{it}</span>)
+                return(
+                  <>
+                    <i key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={hadleRemoveFromAdmin}></i>
+                    <span key={index} className="badge text-bg-dark mx-1">{it}</span>
+                  </>
+                )
               })
             }
         </div>
