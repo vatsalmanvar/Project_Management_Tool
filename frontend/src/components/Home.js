@@ -8,6 +8,7 @@ function Home() {
 
   useEffect(() => {
     if(users.length === 0) fetchUsers();
+    // eslint-disable-next-line
   }, [])
 
   return (

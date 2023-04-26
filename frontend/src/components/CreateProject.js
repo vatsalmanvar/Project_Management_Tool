@@ -15,27 +15,26 @@ const CreateProject = () => {
       //console.log("HandleOnChange ran")
       setSearchInput(e.target.value)
       if(!e.target.value) return setSearchResults([]);
-      const resultsArray = users.filter(users => (users.email.includes(e.target.value)))
+      const resultsArray = users.filter(users => ( !admin.includes(users.email) && users.email.includes(e.target.value)))
       //console.log(e.target.value, resultsArray)
       setSearchResults(resultsArray);
     }
 
     const handleOnClickOnSearch = (e) => {
-      console.log("Button pressed", e.target.value);
+      console.log("Button pressed");
       if(!admin.includes(e.target.value)) setAdmin(admin.concat(e.target.value));
       setSearchInput(initialSearchInput);
       setSearchResults([]);
     }
 
     const hadleRemoveFromAdmin = (e) => {
-      console.log(e);
       setAdmin(admin.filter(it => it!==e.target.value))
     }
 
     useEffect(() => {
       if(users.length === 0) fetchUsers();
-      //console.log(admin, users)
-    }, [users, searchResults, admin, fetchUsers])
+      // eslint-disable-next-line
+    }, [])
     
   return (
     <div>
@@ -63,7 +62,8 @@ const CreateProject = () => {
               Object.values(admin).map((it, index)=>{
                 return(
                   <>
-                    <i key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={hadleRemoveFromAdmin}></i>
+                    <br/>
+                    <button key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={hadleRemoveFromAdmin}></button>
                     <span key={index} className="badge text-bg-dark mx-1">{it}</span>
                   </>
                 )
