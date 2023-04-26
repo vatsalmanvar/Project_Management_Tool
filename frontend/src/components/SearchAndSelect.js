@@ -38,11 +38,11 @@ const SearchAndSelect = (props) => {
     
   return (
     <div>
-        <div className="container">
+        <div className="container border border-dark m-3 p-3">
         
         <div className="mb-3">
-          <label htmlFor="searchInput" className="form-label">Search Email</label>
-          <input type="text" placeholder="" className="form-control" value={searchInput}  id="searchInput" name="searchInput" onChange={handleSearchChange} />
+          <label className="form-label">Search Email</label>
+          <input type="text" placeholder="Enter Email here..." className="form-control" value={searchInput} onChange={handleSearchChange}/>
         
           {
             searchResults.map((it, index)=>{
