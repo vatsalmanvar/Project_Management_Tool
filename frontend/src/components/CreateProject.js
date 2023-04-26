@@ -13,18 +13,11 @@ const CreateProject = () => {
     const handleSearchChange = (e)=>{
       console.log("HandleOnChange ran")
       setSearchInput(e.target.value)
-      if(!searchInput) return setSearchResults(users);
+      if(!e.target.value) return setSearchResults(users);
       const resultsArray = admin.filter(admin => admin.email.includes(e.target.value))
       console.log(e.target.value, resultsArray)
       setSearchResults(resultsArray);
     }
-
-    // const handleSearchChange = (e)=>{
-    //   if(!searchInput) return setSearchResults(users);
-    //   console.log("admin",admin);
-    //   const resultsArray = admin.filter(it => it.includes(searchInput))
-    //   setSearchResults(resultsArray);
-    // }
 
     useEffect(() => {
       if(users.length === 0) fetchUsers();
@@ -32,9 +25,6 @@ const CreateProject = () => {
       //console.log(admin, users)
     }, [searchResults, admin])
     
-  // onKeyUp={handleSearchChange()}
-  //onChange={handleOnChange}
-
   return (
     <div>
         <div className="container">
