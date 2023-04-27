@@ -11,6 +11,7 @@ const SearchAndSelect = (props) => {
     const [searchInput, setSearchInput] = useState(initialSearchInput)
     const [searchResults, setSearchResults] = useState([])
 
+
     const handleSearchChange = (e)=>{
       //console.log("HandleOnChange ran")
       setSearchInput(e.target.value)
@@ -40,35 +41,39 @@ const SearchAndSelect = (props) => {
     <div>
         <div className="container border border-dark m-3 p-3">
         
-        <div className="mb-3">
+        <h6>
+        <div className="mb-3 border rounded-1 p-2">
           <label className="form-label">Search Email</label>
           <input type="text" placeholder="Enter Email here..." className="form-control" value={searchInput} onChange={handleSearchChange}/>
         
           {
             searchResults.map((it, index)=>{
               return(
-                <button key={index} className="list-group-item list-group-item-action" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</button>
+                <option key={index} style={{cursor:'pointer'}} className="list-group-item list-group-item-action border border-1 p-1" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</option>
               )
             })
           }
         </div>
+        </h6>
 
-        <h3>{nameOfArray}</h3>
-        {
-          buildArray.length===0
-          ?
-          <h5>No {nameOfArray} added</h5>
-          :
-          Object.values(buildArray).map((it, index)=>{
-            return(
-              <>
-                <br/>
-                <button key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={hadleRemoveFromAdmin}></button>
-                <span key={index} className="badge text-bg-dark mx-1">{it}</span>
-              </>
-            )
-          })
-        }
+        <div className="container border rounded-1 p-2">
+          <h5>{nameOfArray}</h5>
+          {
+            buildArray.length===0
+            ?
+            <h7>No {nameOfArray} added</h7>
+            :
+            Object.values(buildArray).map((it, index)=>{
+              return(
+                <>
+                  <br/>
+                  <button key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={hadleRemoveFromAdmin}></button>
+                  <span key={index} className="badge text-bg-dark mx-1">{it}</span>
+                </>
+              )
+            })
+          }
+        </div>
     </div>
     </div>
   )

@@ -10,18 +10,36 @@ const { ResultWithContext } = require('express-validator/src/chain');
 
 // ROUTE 1: Create a new project: POST '/api/project/create-project' login required
 router.post('/create-project', fetchuser, [
-    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
+    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 }),
+    body('description', 'Enter a valid description of atleast 5 character').isLength({ min: 5 })
 ], async (req, res) => {
     try {
-        const {projectName} = req.body;
+        const {projectName, description, admin, developers} = req.body;
         // if upper conditions are not matched throw the bad request with the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        let newAdmin = [];
+        let newDevelopers = [];
+
+        for (let index = 0; index < req.body.admin.length; index++) {
+            const element = req.body.admin[index];
+            let userData = await User.findOne({email: element});
+            let elementId = userData._id;
+            if(!newAdmin.includes(elementId)){newAdmin.push(elementId)}
+        }
+
+        for (let index = 0; index < req.body.developers.length; index++) {
+            const element = req.body.developers[index];
+            let userData = await User.findOne({email: element});
+            let elementId = userData._id;
+            if(!newDevelopers.includes(elementId)){newDevelopers.push(elementId)}
+        }
+
         const newProject = new Project({
-            projectName, description: req.body.description , admin: req.user.id, createdBy: req.user.id
+            projectName, description, admin: newAdmin, developers: newDevelopers, createdBy: req.user.id
         })
         const savedProject = await newProject.save();
         res.status(200).send(savedProject);
@@ -137,7 +155,7 @@ router.get('/get-project/:id', fetchuser, async (req, res) => {
         if(!project){return res.status(404).send("Project does not exist")}
 
         let userWantToFetch = req.user.id;
-        if(!project.admin.includes(userWantToFetch) && !project.developers.includes(userWantToFetch)){
+        if(project.createdBy!=userWantToFetch && !project.admin.includes(userWantToFetch) && !project.developers.includes(userWantToFetch)){
             return res.status(401).send("Not Allowed")
         }
 
@@ -154,7 +172,8 @@ router.get('/get-all-projects', fetchuser, async (req, res) => {
         const userId = req.user.id;
         const projects = await Project.find({ $or : [
             {admin: { $in : userId }},
-            {developers: { $in : userId }}
+            {developers: { $in : userId }},
+            {createdBy: userId}
         ]  });
 
         res.status(200).send(projects);
