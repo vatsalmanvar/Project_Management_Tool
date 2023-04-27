@@ -31,13 +31,15 @@ const CreateProject = (props) => {
       });
       const json = await response.json()
       console.log(json);
-      if (json.success){
-          navigate("/home");
-          props.showAlert("Project Created Successfully", "success")
-      }
-      else{
-          props.showAlert("Invalid Credentials", "danger")
-      }
+      navigate("/home");
+      props.showAlert("Project Created Successfully", "success")
+      // if (json.success){
+      //     navigate("/home");
+      //     props.showAlert("Project Created Successfully", "success")
+      // }
+      // else{
+      //     props.showAlert("Invalid Credentials", "danger")
+      // }
   }
 
     useEffect(() => {

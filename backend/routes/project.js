@@ -199,7 +199,7 @@ router.delete('/delete-project', fetchuser, [
         if(!project){return res.status(404).send("Project does not exist")}
 
         let userWantToDelete = req.user.id;
-        if(!project.admin.includes(userWantToDelete)){
+        if(project.createdBy!=userWantToDelete && !project.admin.includes(userWantToDelete)){
             return res.status(401).send("Not Allowed")
         }
         const deletedTickets = await Ticket.deleteMany({projectName: project._id})
@@ -286,7 +286,7 @@ router.get('/get-ticket/:id', fetchuser
         let project = await Project.findById(ticket.projectName)
         if(!project){return res.status(600).send("Database Error")}
 
-        if(!project.admin.includes(userWantToRead) && !project.developers.includes(userWantToRead)){
+        if(project.createdBy!=userWantToRead && !project.admin.includes(userWantToRead) && !project.developers.includes(userWantToRead)){
             return res.status(401).send("Not Allowed")
         }
         
@@ -309,7 +309,7 @@ router.put('/modify-ticket/:id', fetchuser, async (req, res) => {
         let project = await Project.findById(ticket.projectName)
         if(!project){return res.status(600).send("Database Error")}
 
-        if(!project.admin.includes(userWantToModify) && !project.developers.includes(userWantToModify)){
+        if(project.createdBy!=userWantToModify && !project.admin.includes(userWantToModify) && !project.developers.includes(userWantToModify)){
             return res.status(401).send("Not Allowed")
         }
 
@@ -345,7 +345,7 @@ router.get('/get-all-tickets/:id', fetchuser
         let project = await Project.findById(req.params.id)
         if(!project){return res.status(600).send("Project with this name does not exist")}
 
-        if(!project.admin.includes(userWantToFetchAllTicket) && !project.developers.includes(userWantToFetchAllTicket)){
+        if(project.createdBy!=userWantToFetchAllTicket && !project.admin.includes(userWantToFetchAllTicket) && !project.developers.includes(userWantToFetchAllTicket)){
             return res.status(401).send("Not Allowed")
         }
         
