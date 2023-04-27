@@ -24,14 +24,14 @@ router.post('/create-project', fetchuser, [
         let newAdmin = [];
         let newDevelopers = [];
 
-        for (let index = 0; index < req.body.admin.length; index++) {
+        for (let index = 0; index < admin.length; index++) {
             const element = req.body.admin[index];
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
             if(!newAdmin.includes(elementId)){newAdmin.push(elementId)}
         }
 
-        for (let index = 0; index < req.body.developers.length; index++) {
+        for (let index = 0; index < developers.length; index++) {
             const element = req.body.developers[index];
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
@@ -51,88 +51,45 @@ router.post('/create-project', fetchuser, [
 
 // ROUTE 2: add member to the admin or development list in project: POST '/api/project/modify-project' login required
 router.put('/modify-project', fetchuser, [
-    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
+    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 }),
+    body('description', 'Enter a valid description of atleast 5 character').isLength({ min: 5 })
 ], async (req, res) => {
     try {
-        const {projectName, description} = req.body;
+        const {projectId, projectName, description, admin, developers} = req.body;
         // if upper conditions are not matched throw the bad request with the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         
-        let project = await Project.findOne({projectName});
+        let project = await Project.findById(projectId);
         
         if(!project){
             return res.status(404).send("Project with this name does not exist");
         }
 
-        if(!project.admin.includes(req.user.id)){
+        if(project.createdBy!=req.user.id && !project.admin.includes(req.user.id)){
             return res.status(401).send("Not authorised to make changes");
         }
 
-        if(description){
-            const updatedProject = await Project.findByIdAndUpdate(project._id, {description});
-        }
+        let newAdmin = [];
+        let newDevelopers = [];
 
-        let newAdmin = project.admin;
-        let newDevelopers = project.developers;
-
-        for (let index = 0; index < req.body.admin.length; index++) {
-            const element = req.body.admin[index];
+        for (let index = 0; index < admin.length; index++) {
+            const element = admin[index];
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
-            if(!newAdmin.includes(elementId)){
-                newAdmin.push(elementId)
-            }
-            if(index+1 === req.body.admin.length){
-                const updatedProject = await Project.findByIdAndUpdate(project._id, {$set: {admin: newAdmin}})
-            }
+            if(!newAdmin.includes(elementId)){newAdmin.push(elementId)}
         }
 
-        for (let index = 0; index < req.body.developers.length; index++) {
-            const element = req.body.developers[index];
+        for (let index = 0; index < developers.length; index++) {
+            const element = developers[index];
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
-            if(!newDevelopers.includes(elementId)){
-                newDevelopers.push(elementId)
-            }
-            if(index+1 === req.body.developers.length){
-                const updatedProject = await Project.findByIdAndUpdate(project._id, {$set: {developers: newDevelopers}})
-            }
+            if(!newDevelopers.includes(elementId)){newDevelopers.push(elementId)}
         }
-
-        // delete the admin and developers
-        // project = await Project.findOne({projectName});
-
-        // newAdmin = project.admin;
-        // newDevelopers = project.developers;
-
-        // for (let index = 0; index < req.body.removeAdmin.length; index++) {
-        //     const element = req.body.removeAdmin[index];
-        //     let userData = await User.findOne({email: element});
-        //     let elementId = userData._id;
-        //     if(project.createdBy !== elementId){
-        //         const i = newAdmin.indexOf(elementId);
-        //         if(i>-1){newAdmin.splice(i, 1);}
-        //     }
-        //     if(index+1 === req.body.removeAdmin.length){
-        //         const updatedProject = await Project.findByIdAndUpdate(project._id, {$set: {admin: newAdmin}})
-        //     }
-        // }
-
-        // for (let index = 0; index < req.body.removeDevelopers.length; index++) {
-        //     const element = req.body.removeDevelopers[index];
-        //     let userData = await User.findOne({email: element});
-        //     let elementId = userData._id;
-        //     const i = newDevelopers.indexOf(elementId);
-        //     if(i>-1){newDevelopers.splice(i, 1);}
-        //     if(index+1 === req.body.removeDevelopers.length){
-        //         const updatedProject = await Project.findByIdAndUpdate(project._id, {$set: {developers: newDevelopers}})
-        //     }
-        // }
-
-
+        
+        const updatedProject = await Project.findByIdAndUpdate(project._id, {$set: { projectName, description, admin:newAdmin, developers: newDevelopers}})
         res.status(200).send(await Project.findById(project.id));
 
     } catch (error) {

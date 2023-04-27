@@ -1,10 +1,11 @@
 import React,{useState, useEffect, useContext} from 'react'
 import { useParams } from 'react-router-dom'
 import projectContext from '../context/project/projectContext';
-
+import { useNavigate } from 'react-router-dom'
 
 const ProjectDetail  = (props) => {
 
+    let navigate = useNavigate();
     const context = useContext(projectContext);
     const {users, fetchUsers, userIdToName} = context;
     const params = useParams();
@@ -50,6 +51,10 @@ const ProjectDetail  = (props) => {
       setProject(proj);
     }
     
+    const handleOnClickModifyProject = ()=>{
+      navigate(`/modify-project/${project._id}`,{state: {project} });
+    }
+
     useEffect(() => {
       //console.log(users.length);
       if(users.length === 0) fetchUsers();
@@ -65,13 +70,14 @@ const ProjectDetail  = (props) => {
       <div className="container">NOT ALLOWED</div>
       :
       <div className="card text-center">
-      <div className="card-header">
-        {project.projectName}
+      <div className="card-header inline">
+        <h5 className='float-start'>{project.projectName}</h5>
+        <button className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>Modify</button>
       </div>
-      <div className="card-body">
-       
-        <h5 className="card-title">Description</h5>
+
+      <div className="card-body">     
         <p className="card-text">
+        <h5 className="card-title">Description</h5>
           {project.description}
         </p>
 
@@ -105,14 +111,14 @@ const ProjectDetail  = (props) => {
             :
             tickets.map((tick, index)=>{
               return (
-              <a key={index} href={`/ticket/${tick._id}`} className="list-group-item list-group-item-action">{tick.ticketNumber}</a>
+              <a key={index} href={`/ticket/${tick._id}`} className="list-group-item list-group-item-action p-1">{tick.ticketNumber}</a>
               )
             })
           }
         </div>
         
 
-        <a href="/" className="btn btn-primary">Go somewhere</a>
+        <a href="/" className="btn btn-primary m-2">Go somewhere</a>
       </div>
       <div className="card-footer text-body-secondary">
         {project.date}
