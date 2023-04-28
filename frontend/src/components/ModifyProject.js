@@ -1,19 +1,44 @@
 import React, {useEffect, useState, useContext} from 'react'
 import projectContext from '../context/project/projectContext';
 import SearchAndSelect from './SearchAndSelect';
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const ModifyProject = (props) => {
-    const location = useLocation();
     let navigate = useNavigate();
+
     const context = useContext(projectContext);
-    const {users, fetchUsers} = context;
-    
-    const [projectId, setProjectId] = useState(location.state.project._id)
-    const [admin, setAdmin] = useState(location.state.project.admin)
-    const [developers, setDevelopers] = useState(location.state.project.developers)
-    const [projectName, setProjectName] = useState(location.state.project.projectName)
-    const [description, setDescription] = useState(location.state.project.description)
+    const {userIdToEmail} = context;
+
+    const params = useParams();
+    const [projectId] = useState(params.projectId)
+    const [admin, setAdmin] = useState([])
+    const [developers, setDevelopers] = useState([])
+    const [projectName, setProjectName] = useState("")
+    const [description, setDescription] = useState("")
+
+    const fetchProject = async()=>{
+      const responce = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        }
+      });
+      const proj = await responce.json();
+
+      // changing "user-id" to "user-name"
+      proj.createdBy = userIdToEmail(proj.createdBy);
+      for (let index = 0; index < proj.admin.length; index++) {
+        proj.admin[index] = userIdToEmail(proj.admin[index]);
+      }
+      for (let index = 0; index < proj.developers.length; index++) {
+        proj.developers[index] = userIdToEmail(proj.developers[index]);
+      }
+      setAdmin(proj.admin)
+      setDevelopers(proj.developers)
+      setProjectName(proj.projectName)
+      setDescription(proj.description)
+    }
 
     const handleOnChange = (e)=>{
       if(e.target.name === "projectName") setProjectName(e.target.value);
@@ -33,8 +58,8 @@ const ModifyProject = (props) => {
       });
       const json = await response.json()
       console.log(json);
-      navigate("/home");
-      props.showAlert("Project Created Successfully", "success")
+      navigate(`/project/${projectId}`);
+      props.showAlert("Project Modified Successfully", "success")
       // if (json.success){
       //     navigate("/home");
       //     props.showAlert("Project Created Successfully", "success")
@@ -45,7 +70,7 @@ const ModifyProject = (props) => {
   }
 
     useEffect(() => {
-      if(users.length === 0) fetchUsers();
+      fetchProject();
       // eslint-disable-next-line
     }, [])
     

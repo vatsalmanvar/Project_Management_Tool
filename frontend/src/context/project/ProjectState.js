@@ -19,15 +19,23 @@ const ProjectState = (props)=>{
     }
 
     const userIdToName = (userId)=>{
-        for (let index = 0; index < users.length; index++) {
-          if(users[index]._id === userId){
-            return users[index].name;
-          }
+      for (let index = 0; index < users.length; index++) {
+        if(users[index]._id === userId){
+          return users[index].name;
         }
       }
+    }
+
+    const userIdToEmail = (userId)=>{
+      for (let index = 0; index < users.length; index++) {
+        if(users[index]._id === userId){
+          return users[index].email;
+        }
+      }
+    }
   
     return(
-        <ProjectContext.Provider value={{users, fetchUsers, userIdToName}}>
+        <ProjectContext.Provider value={{users, fetchUsers, userIdToName, userIdToEmail}}>
             {props.children}
         </ProjectContext.Provider>
     )

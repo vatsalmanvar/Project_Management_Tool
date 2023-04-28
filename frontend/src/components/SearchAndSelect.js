@@ -61,7 +61,7 @@ const SearchAndSelect = (props) => {
           {
             buildArray.length===0
             ?
-            <h7>No {nameOfArray} added</h7>
+            <h6>No {nameOfArray} added</h6>
             :
             Object.values(buildArray).map((it, index)=>{
               return(

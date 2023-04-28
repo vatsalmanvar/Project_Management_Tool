@@ -76,14 +76,15 @@ router.put('/modify-project', fetchuser, [
         let newDevelopers = [];
 
         for (let index = 0; index < admin.length; index++) {
-            const element = admin[index];
+            const element = req.body.admin[index];
+            console.log(element)
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
             if(!newAdmin.includes(elementId)){newAdmin.push(elementId)}
         }
 
         for (let index = 0; index < developers.length; index++) {
-            const element = developers[index];
+            const element = req.body.developers[index];
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
             if(!newDevelopers.includes(elementId)){newDevelopers.push(elementId)}

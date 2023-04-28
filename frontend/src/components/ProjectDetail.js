@@ -1,7 +1,6 @@
 import React,{useState, useEffect, useContext} from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import projectContext from '../context/project/projectContext';
-import { useNavigate } from 'react-router-dom'
 
 const ProjectDetail  = (props) => {
 
@@ -36,13 +35,13 @@ const ProjectDetail  = (props) => {
       const proj = await responce.json();
 
       // changing "user-id" to "user-name"
-      proj.createdBy = userIdToName(proj.createdBy);
-      for (let index = 0; index < proj.admin.length; index++) {
-        proj.admin[index] = userIdToName(proj.admin[index]);
-      }
-      for (let index = 0; index < proj.developers.length; index++) {
-        proj.developers[index] = userIdToName(proj.developers[index]);
-      }
+      // proj.createdBy = userIdToName(proj.createdBy);
+      // for (let index = 0; index < proj.admin.length; index++) {
+      //   proj.admin[index] = userIdToName(proj.admin[index]);
+      // }
+      // for (let index = 0; index < proj.developers.length; index++) {
+      //   proj.developers[index] = userIdToName(proj.developers[index]);
+      // }
       
       // changing the date format
       const date = new Date(proj.date);
@@ -52,7 +51,7 @@ const ProjectDetail  = (props) => {
     }
     
     const handleOnClickModifyProject = ()=>{
-      navigate(`/modify-project/${project._id}`,{state: {project} });
+      navigate(`/modify-project/${project._id}`);
     }
 
     useEffect(() => {
@@ -83,14 +82,14 @@ const ProjectDetail  = (props) => {
 
         <h5 className="card-title">Created By</h5>
         <p className="card-text">
-        <span className="badge text-bg-dark mx-1">{project.createdBy}</span>
+        <span className="badge text-bg-dark mx-1">{userIdToName(project.createdBy)}</span>
         </p>
 
         <h5 className="card-title">Admin</h5>
         <p className="card-text">
           {project.admin.map((proj, index)=>{
             return (
-              <span className="badge text-bg-dark mx-1" key={index}>{proj}</span>)
+              <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
           })}
         </p>
         
@@ -98,7 +97,7 @@ const ProjectDetail  = (props) => {
         <p className="card-text">
           {project.developers.map((proj, index)=>{
             return (
-              <span className="badge text-bg-dark mx-1" key={index}>{proj}</span>)
+              <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
           })}
         </p>
 
