@@ -77,7 +77,6 @@ router.put('/modify-project', fetchuser, [
 
         for (let index = 0; index < admin.length; index++) {
             const element = req.body.admin[index];
-            console.log(element)
             let userData = await User.findOne({email: element});
             let elementId = userData._id;
             if(!newAdmin.includes(elementId)){newAdmin.push(elementId)}

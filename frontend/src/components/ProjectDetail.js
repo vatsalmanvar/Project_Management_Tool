@@ -55,6 +55,10 @@ const ProjectDetail  = (props) => {
       navigate(`/modify-project/${project._id}`);
     }
 
+    const handleOnClickNewTicket = ()=>{
+      navigate(`/project/${project._id}/create-ticket`)
+    }
+
     useEffect(() => {
       //console.log(users.length);
       if(users.length === 0) fetchUsers();
@@ -112,7 +116,7 @@ const ProjectDetail  = (props) => {
         
         <div className="container border border-1 rounded p-3">
           <h5 className="card-title">Tickets</h5>
-          {
+            {
             tickets.length===0
             ?
             <div><p>None of tickets are created</p></div>
@@ -120,9 +124,10 @@ const ProjectDetail  = (props) => {
             tickets.map((tick, index)=>{
               return (
                 <Link to={`/ticket/${tick._id}`}> <TicketItem ticket={tick} /> </Link>
-              )
-            })
-          }
+                )
+              })
+            }
+            <button className="btn btn-primary mx-3 my-1" onClick={handleOnClickNewTicket}>New Ticket</button>
         </div>
       </div>
       <div className="card-footer text-body-secondary">

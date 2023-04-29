@@ -31,7 +31,7 @@ const CreateProject = (props) => {
       });
       const json = await response.json()
       console.log(json);
-      navigate("/home");
+      navigate('/home/');
       props.showAlert("Project Created Successfully", "success")
       // if (json.success){
       //     navigate("/home");

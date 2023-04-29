@@ -12,6 +12,7 @@ import ProjectState from './context/project/ProjectState';
 import TicketDetail from './components/TicketDetail';
 import CreateProject from './components/CreateProject';
 import ModifyProject from './components/ModifyProject';
+import CreateTicket from './components/CreateTicket';
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
             <Route exact path="/ticket/:ticketId" element={<TicketDetail showAlert={showAlert}/>}></Route>
             <Route exact path="/create-project" element={<CreateProject showAlert={showAlert}/>}></Route>
             <Route exact path="/modify-project/:projectId" element={<ModifyProject showAlert={showAlert}/>}></Route>
+            <Route exact path="/project/:projectId/create-ticket" element={<CreateTicket showAlert={showAlert}/>}></Route>
           </Routes>
         </div>
       </BrowserRouter>
