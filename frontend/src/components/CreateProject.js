@@ -48,29 +48,28 @@ const CreateProject = (props) => {
     }, [])
     
   return (
-    <div>
-        <div className="container">
+        <div className="card">
+        <div className="card-header inline">
+          <h5 className='float-start'>CREATE NEW PROJECT</h5>
+        </div>
 
-          <form onSubmit={handleFormSubmit}>
-            <div className="container border border-1 rounded m-3 p-3">
-              <label htmlFor="exampleInputEmail1" className="form-label">Name of Project</label>
-              <input type="text" className="form-control" name="projectName" value={projectName} onChange={handleOnChange}/>
-            </div>
-            
-            <div className="container border border-1 rounded m-3 p-3">
-              <label htmlFor="exampleInputEmail1" className="form-label">Description of Project</label>
-              <input type="text" className="form-control" name="description" value={description} onChange={handleOnChange}/>
-            </div>
+        <div className="card-body">  
+            <form onSubmit={handleFormSubmit}>
+              <div className="container border border-1 rounded m-3 p-3">
+                <label htmlFor="exampleInputEmail1" className="form-label">Name of Project</label>
+                <input type="text" className="form-control" name="projectName" value={projectName} onChange={handleOnChange}/>
+              </div>
+              
+              <div className="container border border-1 rounded m-3 p-3">
+                <label htmlFor="exampleInputEmail1" className="form-label">Description of Project</label>
+                <input type="text" className="form-control" name="description" value={description} onChange={handleOnChange}/>
+              </div>
 
-            <SearchAndSelect nameOfArray={"ADMIN"} buildArray={admin} setBuildArray={setAdmin} />
-            <SearchAndSelect nameOfArray={"DEVELOPER"} buildArray={developers} setBuildArray={setDevelopers} />
-        
-            <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
-
-
-            
-        
+              <SearchAndSelect nameOfArray={"ADMIN"} buildArray={admin} setBuildArray={setAdmin} />
+              <SearchAndSelect nameOfArray={"DEVELOPER"} buildArray={developers} setBuildArray={setDevelopers} />
+          
+              <button type="submit" className="btn btn-primary">CREATE</button>
+            </form>
         </div>
     </div>
   )

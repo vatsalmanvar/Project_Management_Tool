@@ -14,7 +14,7 @@ function TicketItem(props) {
               <div className="d-flex justify-content-around border border-3 rounded p-2">
                 <div className='mx-2'>
                     <i class="fa-sharp fa-solid fa-ticket mx-2"></i>
-                    {ticket.ticketNumber}
+                    <span class="badge bg-light text-dark">{ticket.ticketNumber}</span>
                 </div>
                 <div className='mx-2'>
                     <span class="badge bg-info text-dark">{ticket.ticketType}</span>
@@ -26,7 +26,7 @@ function TicketItem(props) {
                 </div>
                 <div className='mx-2'>
                     <i class="fa-solid fa-calendar-days mx-2"></i>
-                    {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
+                    <span class="badge bg-warning text-dark">{date.getDate()}/{date.getMonth()}/{date.getFullYear()}</span>
                 </div>
               </div>
     </div>

@@ -124,9 +124,6 @@ const ProjectDetail  = (props) => {
             })
           }
         </div>
-        
-
-        <a href="/" className="btn btn-primary m-2">Go somewhere</a>
       </div>
       <div className="card-footer text-body-secondary">
         {project.date}
