@@ -39,7 +39,7 @@ const SearchAndSelect = (props) => {
     
   return (
     <div>
-        <div className="container border border-dark m-3 p-3">
+        <div className="container border border-1 rounded m-3 p-3">
         
         <h6>
         <div className="mb-3 border rounded-1 p-2">

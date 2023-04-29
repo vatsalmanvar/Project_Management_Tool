@@ -52,12 +52,12 @@ const CreateProject = (props) => {
         <div className="container">
 
           <form onSubmit={handleFormSubmit}>
-            <div className="container border border-dark m-3 p-3">
+            <div className="container border border-1 rounded m-3 p-3">
               <label htmlFor="exampleInputEmail1" className="form-label">Name of Project</label>
               <input type="text" className="form-control" name="projectName" value={projectName} onChange={handleOnChange}/>
             </div>
             
-            <div className="container border border-dark m-3 p-3">
+            <div className="container border border-1 rounded m-3 p-3">
               <label htmlFor="exampleInputEmail1" className="form-label">Description of Project</label>
               <input type="text" className="form-control" name="description" value={description} onChange={handleOnChange}/>
             </div>

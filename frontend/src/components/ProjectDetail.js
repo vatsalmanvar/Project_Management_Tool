@@ -1,6 +1,7 @@
 import React,{useState, useEffect, useContext} from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import projectContext from '../context/project/projectContext';
+import TicketItem from './TicketItem';
 
 const ProjectDetail  = (props) => {
 
@@ -68,23 +69,28 @@ const ProjectDetail  = (props) => {
       { project==null ?
       <div className="container">NOT ALLOWED</div>
       :
-      <div className="card text-center">
+      <div className="card">
       <div className="card-header inline">
         <h5 className='float-start'>{project.projectName}</h5>
         <button className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>Modify</button>
       </div>
 
-      <div className="card-body">     
+      <div className="card-body">    
+        <div className="container border border-1 rounded p-3"> 
         <p className="card-text">
         <h5 className="card-title">Description</h5>
           {project.description}
         </p>
+        </div>
 
+        <div className="container border border-1 rounded p-3">
         <h5 className="card-title">Created By</h5>
         <p className="card-text">
         <span className="badge text-bg-dark mx-1">{userIdToName(project.createdBy)}</span>
         </p>
+        </div>
 
+        <div className="container border border-1 rounded p-3">
         <h5 className="card-title">Admin</h5>
         <p className="card-text">
           {project.admin.map((proj, index)=>{
@@ -92,7 +98,9 @@ const ProjectDetail  = (props) => {
               <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
           })}
         </p>
+        </div>
         
+        <div className="container border border-1 rounded p-3">
         <h5 className="card-title">Developers</h5>
         <p className="card-text">
           {project.developers.map((proj, index)=>{
@@ -100,9 +108,10 @@ const ProjectDetail  = (props) => {
               <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
           })}
         </p>
-
-        <h5 className="card-title">Tickets</h5>
-        <div className="list-group">
+        </div>
+        
+        <div className="container border border-1 rounded p-3">
+          <h5 className="card-title">Tickets</h5>
           {
             tickets.length===0
             ?
@@ -110,7 +119,7 @@ const ProjectDetail  = (props) => {
             :
             tickets.map((tick, index)=>{
               return (
-              <a key={index} href={`/ticket/${tick._id}`} className="list-group-item list-group-item-action p-1">{tick.ticketNumber}</a>
+                <Link to={`/ticket/${tick._id}`}> <TicketItem ticket={tick} /> </Link>
               )
             })
           }
