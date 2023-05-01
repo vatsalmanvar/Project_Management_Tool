@@ -2,11 +2,12 @@ import React, {useEffect, useState, useContext} from 'react'
 import projectContext from '../context/project/projectContext';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const CreateTicket = (props) => {
+const ModifyTicket = (props) => {
     let navigate = useNavigate();
     const context = useContext(projectContext);
     const {users, fetchUsers, userIdToName} = context;
     const params = useParams();
+    const [ticketId] = useState(params.ticketId)
     const [projectId] = useState(params.projectId)
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -17,17 +18,17 @@ const CreateTicket = (props) => {
 
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-      const response = await fetch("http://localhost:5000/api/project/create-ticket", {
-          method: 'POST',
+      const response = await fetch(`http://localhost:5000/api/project/modify-ticket/${ticketId}`, {
+          method: 'PUT',
           headers: {
               'Content-Type': 'application/json',
               'auth-token': localStorage.getItem('token')
           },
-          body: JSON.stringify({projectId, title, description, createdBy, assignedTo, ticketType})
+          body: JSON.stringify({projectName:projectId ,title, description, assignedTo, ticketType})
       });
       const json = await response.json()
       console.log(json);
-      navigate(`/project/${projectId}`);
+      navigate(`/ticket/${ticketId}`);
       props.showAlert("Ticket Created Successfully", "success")
     //   if (json.success){
     //       navigate("/home");
@@ -36,6 +37,22 @@ const CreateTicket = (props) => {
     //   else{
     //       props.showAlert("Invalid Credentials", "danger")
     //   }
+    }
+
+    const fetchTicket = async()=>{
+        const responce = await fetch(`http://localhost:5000/api/project/get-ticket/${ticketId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        }
+        });
+        const tick = await responce.json();
+        setTitle(tick.title);
+        setDescription(tick.description);
+        setAssignedTo(tick.assignedTo);
+        setCreatedBy(tick.createdBy);
+        setTicketType(tick.ticketType);
     }
 
     const fetchProject = async()=>{
@@ -65,6 +82,7 @@ const CreateTicket = (props) => {
 
     useEffect(() => {
         fetchProject();
+        fetchTicket();
         if(users.length === 0) fetchUsers();
       // eslint-disable-next-line
     }, [])
@@ -100,20 +118,12 @@ const CreateTicket = (props) => {
                 <div className="row">
                 <div className="col border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Created By</label>
-                    <select name="createdBy" className="form-select" onChange={e => setCreatedBy(e.target.value)}>
-                        {   
-                            Object.values(userOfThisProject).map((data, index)=>{
-                                return (
-                                    <option key={index} value={data}>{userIdToName(data)}</option>
-                                )
-                            })
-                        }
-                    </select>
+                    <input className="form-control" type="text" placeholder={userIdToName(createdBy)} disabled/>
                 </div>
 
                 <div className="col border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Assigned To</label>
-                    <select name="assignedTo" className="form-select" onChange={e => setAssignedTo(e.target.value)}>
+                    <select name="assignedTo" value={assignedTo} className="form-select" onChange={e => setAssignedTo(e.target.value)}>
                         {   
                             Object.values(userOfThisProject).map((data, index)=>{
                                 return (
@@ -125,11 +135,11 @@ const CreateTicket = (props) => {
                 </div>
                 </div>
 
-              <button type="submit" className="btn btn-primary">CREATE</button>
+              <button type="submit" className="btn btn-primary">MODIFY</button>
             </form>
         </div>
     </div>
   )
 }
 
-export default CreateTicket
+export default ModifyTicket

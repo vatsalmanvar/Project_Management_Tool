@@ -2,7 +2,6 @@ import React, {useContext} from 'react'
 import projectContext from '../context/project/projectContext';
 
 function TicketItem(props) {
-
     const context = useContext(projectContext);
     const {userIdToName} = context;
     const {ticket} = props;

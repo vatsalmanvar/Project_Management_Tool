@@ -38,38 +38,48 @@ const TicketDetail  = (props) => {
       { ticket==null ?
       <div className="container">NOT ALLOWED</div>
       :
-      <div className="card text-center">
+      <div className="card">
       <div className="card-header">
         {ticket.ticketNumber}
       </div>
       <div className="card-body">
-       
+        
+        <div className="border border-1 rounded m-3 p-3">
         <h5 className="card-title">Title</h5>
         <p className="card-text">
           {ticket.title}
         </p>
+        </div>
 
+        <div className="border border-1 rounded m-3 p-3">
         <h5 className="card-title">Description</h5>
         <p className="card-text">
           {ticket.description}
         </p>
+        </div>
 
+        <div className="border border-1 rounded m-3 p-3">
         <h5 className="card-title">Ticket Type</h5>
         <p className="card-text">
-          {ticket.type}
+        <span className="badge text-bg-light mx-1">{ticket.ticketType}</span>
         </p>
+        </div>
 
+        <div className="border border-1 rounded m-3 p-3">
         <h5 className="card-title">Created By</h5>
         <p className="card-text">
         <span className="badge text-bg-dark mx-1">{ticket.createdBy}</span>
         </p>
+        </div>
 
+        <div className="border border-1 rounded m-3 p-3">
         <h5 className="card-title">Assigned to </h5>
         <p className="card-text">
         <span className="badge text-bg-dark mx-1">{ticket.assignedTo}</span>
         </p>
+        </div>
 
-        <a href="/" className="btn btn-primary">Go somewhere</a>
+        <a href={`/project/${ticket.projectName}/modify-ticket/${ticket._id}`} className="btn btn-primary">Modify Ticket</a>
       </div>
       <div className="card-footer text-body-secondary">
         {ticket.date}

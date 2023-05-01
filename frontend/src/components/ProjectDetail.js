@@ -123,7 +123,9 @@ const ProjectDetail  = (props) => {
             :
             tickets.map((tick, index)=>{
               return (
-                <Link to={`/ticket/${tick._id}`}> <TicketItem ticket={tick} /> </Link>
+                <div>
+                  <Link  to={`/ticket/${tick._id}`}> <TicketItem ticket={tick} /> </Link>
+                </div>
                 )
               })
             }
