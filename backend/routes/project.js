@@ -174,28 +174,27 @@ router.delete('/delete-project', fetchuser, [
 
 // ROUTE 1: Create ticket for a particular project: POST '/api/project/create-ticket' login required
 router.post('/create-ticket', fetchuser, [
-    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 }),
+    body('projectId', 'Enter a valid project-Id').isLength({ min: 1 }),
     body('createdBy', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 }),
     body('assignedTo', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
 ], async (req, res) => {
     try {
-        const {projectName, title, description, createdBy, assignedTo, ticketType} = req.body;
-
+        const {projectId, title, description, createdBy, assignedTo, ticketType} = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let projectObject = await Project.findOne({projectName});
-        let createdByObject = await User.findOne({email: createdBy});
-        let assignedToObject = await User.findOne({email: assignedTo});
+        let projectObject = await Project.findById(projectId);
+        let createdByObject = await User.findById(createdBy);
+        let assignedToObject = await User.findById(assignedTo);
         if(!projectObject){return res.status(404).send("Project Not Found")}
         if(!createdByObject){return res.status(404).send("Created by (User) is not found")}
         if(!assignedToObject){return res.status(404).send("Assigned to (User) is not found")}
         // if upper conditions are not matched throw the bad request with the errors
         
 
-        let ticketNumber = projectName+'_'+projectObject.nextTicketNumber;
+        let ticketNumber = projectObject.projectName+'_'+projectObject.nextTicketNumber;
         
         let exist = await Ticket.findOne({ticketNumber});
         if(exist){return res.status(400).send('Ticket Number is already existed')}

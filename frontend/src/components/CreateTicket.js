@@ -2,46 +2,43 @@ import React, {useEffect, useState, useContext} from 'react'
 import projectContext from '../context/project/projectContext';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const CreateTicket = () => {
+const CreateTicket = (props) => {
     let navigate = useNavigate();
     const context = useContext(projectContext);
     const {users, fetchUsers, userIdToName} = context;
     const params = useParams();
     const [projectId] = useState(params.projectId)
-    const [project, setProject] = useState([])
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [ticketType, setTicketType] = useState()
+    const [ticketType, setTicketType] = useState("")
     const [userOfThisProject, setUserOfThisProject] = useState([])
-    const [issuedBy, setIssuedBy] = useState("")
+    const [createdBy, setCreatedBy] = useState("")
     const [assignedTo, setAssignedTo] = useState("")
-    
-    const handleOnChange = (e)=>{
-      if(e.target.name === "title") setTitle(e.target.value);
-      if(e.target.name === "description") setDescription(e.target.value);
-    }
 
     const handleFormSubmit = async (e) => {
-    //   e.preventDefault();
-    //   const response = await fetch("http://localhost:5000/api/project/create-project", {
-    //       method: 'POST',
-    //       headers: {
-    //           'Content-Type': 'application/json',
-    //           'auth-token': localStorage.getItem('token')
-    //       },
-    //       body: JSON.stringify({projectName, description, admin, developers})
-    //   });
-    //   const json = await response.json()
-    //   console.log(json);
-    //   navigate('/home/');
-    //   props.showAlert("Project Created Successfully", "success")
-      // if (json.success){
-      //     navigate("/home");
-      //     props.showAlert("Project Created Successfully", "success")
-      // }
-      // else{
-      //     props.showAlert("Invalid Credentials", "danger")
-      // }
+      e.preventDefault();
+      if(assignedTo==="" || createdBy===""){
+        alert("AssignedTo and CreatedBy field can't be empty");
+      }
+      const response = await fetch("http://localhost:5000/api/project/create-ticket", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'auth-token': localStorage.getItem('token')
+          },
+          body: JSON.stringify({projectId, title, description, createdBy, assignedTo, ticketType})
+      });
+      const json = await response.json()
+      console.log(json);
+      navigate(`/project/${projectId}`);
+      props.showAlert("Ticket Created Successfully", "success")
+    //   if (json.success){
+    //       navigate("/home");
+    //       props.showAlert("Project Created Successfully", "success")
+    //   }
+    //   else{
+    //       props.showAlert("Invalid Credentials", "danger")
+    //   }
     }
 
     const fetchProject = async()=>{
@@ -63,8 +60,10 @@ const CreateTicket = () => {
             if(!userAssociatedWithProject.includes(proj.developers[index])) userAssociatedWithProject.push(proj.developers[index])
         }
         setUserOfThisProject(userAssociatedWithProject);
-        setProject(proj);
-        console.log(userAssociatedWithProject)
+        console.log(userAssociatedWithProject);
+        setCreatedBy(userAssociatedWithProject[0])        
+        setAssignedTo(userAssociatedWithProject[0])
+        setTicketType("In Development")
     }
 
     useEffect(() => {
@@ -83,12 +82,12 @@ const CreateTicket = () => {
             <form onSubmit={handleFormSubmit}>
                 <div className="border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
-                    <input type="text" className="form-control" name="title" value={title} onChange={handleOnChange}/>
+                    <input type="text" className="form-control" name="title" value={title} onChange={e => setTitle(e.target.value)}/>
                 </div>
                 
                 <div className="border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Description of Project</label>
-                    <input type="text" className="form-control" name="description" value={description} onChange={handleOnChange}/>
+                    <input type="text" className="form-control" name="description" value={description} onChange={e => setDescription(e.target.value)}/>
                 </div>
 
                 <div className="border border-1 rounded m-3 p-3">
@@ -104,7 +103,7 @@ const CreateTicket = () => {
                 <div className="row">
                 <div className="col border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Created By</label>
-                    <select className="form-select" name="ticketType" value={issuedBy} onChange={e => setIssuedBy(e.target.value)}>
+                    <select name="createdBy" className="form-select" onChange={e => setCreatedBy(e.target.value)}>
                         {   
                             Object.values(userOfThisProject).map((data, index)=>{
                                 return (
@@ -117,7 +116,7 @@ const CreateTicket = () => {
 
                 <div className="col border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Assigned To</label>
-                    <select className="form-select" name="ticketType" value={assignedTo} onChange={e => setAssignedTo(e.target.value)}>
+                    <select name="assignedTo" className="form-select" onChange={e => setAssignedTo(e.target.value)}>
                         {   
                             Object.values(userOfThisProject).map((data, index)=>{
                                 return (
