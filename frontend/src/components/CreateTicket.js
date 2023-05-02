@@ -83,7 +83,7 @@ const CreateTicket = (props) => {
                 </div>
                 
                 <div className="border border-1 rounded m-3 p-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Description of Project</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label">Description of Ticket</label>
                     <input type="text" className="form-control" name="description" value={description} onChange={e => setDescription(e.target.value)}/>
                 </div>
 

@@ -12,20 +12,20 @@ function TicketItem(props) {
     <div className="container my-1">
               <div className="d-flex justify-content-around border border-3 rounded p-2">
                 <div className='mx-2'>
-                    <i class="fa-sharp fa-solid fa-ticket mx-2"></i>
-                    <span class="badge bg-light text-dark">{ticket.ticketNumber}</span>
+                    <i className="fa-sharp fa-solid fa-ticket mx-2"></i>
+                    <span className="badge bg-light text-dark">{ticket.ticketNumber}</span>
                 </div>
                 <div className='mx-2'>
-                    <span class="badge bg-info text-dark">{ticket.ticketType}</span>
+                    <span className="badge bg-info text-dark">{ticket.ticketType}</span>
                 </div>
                 <div className='mx-2'>
-                    <span class="badge bg-light text-dark">{userIdToName(ticket.createdBy)}</span>
-                    <i class="fa-solid fa-right-long mx-2"></i>
-                    <span class="badge bg-light text-dark">{userIdToName(ticket.assignedTo)}</span>
+                    <span className="badge bg-light text-dark">{userIdToName(ticket.createdBy)}</span>
+                    <i className="fa-solid fa-right-long mx-2"></i>
+                    <span className="badge bg-light text-dark">{userIdToName(ticket.assignedTo)}</span>
                 </div>
                 <div className='mx-2'>
-                    <i class="fa-solid fa-calendar-days mx-2"></i>
-                    <span class="badge bg-warning text-dark">{date.getDate()}/{date.getMonth()}/{date.getFullYear()}</span>
+                    <i className="fa-solid fa-calendar-days mx-2"></i>
+                    <span className="badge bg-warning text-dark">{date.getDate()}/{date.getMonth()}/{date.getFullYear()}</span>
                 </div>
               </div>
     </div>
