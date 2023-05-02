@@ -142,27 +142,27 @@ router.get('/get-all-projects', fetchuser, async (req, res) => {
 
 // ROUTE 4: delete project: DELETE '/api/project/delete-project' login required
 router.delete('/delete-project', fetchuser, [
-    body('projectName', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
+    body('projectId', 'Enter a valid projectId').isLength({ min: 1 })
 ], async (req, res) => {
     try {
-        const {projectName} = req.body;
+        const {projectId} = req.body;
         // if upper conditions are not matched throw the bad request with the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const project = await Project.findOne({projectName});
+        const project = await Project.findById(projectId);
         if(!project){return res.status(404).send("Project does not exist")}
 
         let userWantToDelete = req.user.id;
-        if(project.createdBy!=userWantToDelete && !project.admin.includes(userWantToDelete)){
+        if(project.createdBy!=userWantToDelete){
             return res.status(401).send("Not Allowed")
         }
         const deletedTickets = await Ticket.deleteMany({projectName: project._id})
         const deletedProject =  await Project.findByIdAndDelete(project.id);
 
-        res.status(200).send("Project and all relavent tickets deleted Successfully");
+        res.status(200).send(JSON.stringify({"success":"Project and all relavent tickets deleted Successfully"}));
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error Occured")

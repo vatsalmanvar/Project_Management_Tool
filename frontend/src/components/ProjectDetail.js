@@ -12,6 +12,7 @@ const ProjectDetail  = (props) => {
     const [projectId] = useState(params.projectId)
     const [project, setProject] = useState(null);
     const [tickets, setTickets] = useState([]);
+    const [currentUser, setCurrentUser] = useState([]);
 
     const fetchTickets = async()=>{
       const responce = await fetch(`http://localhost:5000/api/project/get-all-tickets/${projectId}`, {
@@ -35,22 +36,40 @@ const ProjectDetail  = (props) => {
       });
       const proj = await responce.json();
 
-      // changing "user-id" to "user-name"
-      // proj.createdBy = userIdToName(proj.createdBy);
-      // for (let index = 0; index < proj.admin.length; index++) {
-      //   proj.admin[index] = userIdToName(proj.admin[index]);
-      // }
-      // for (let index = 0; index < proj.developers.length; index++) {
-      //   proj.developers[index] = userIdToName(proj.developers[index]);
-      // }
-      
       // changing the date format
       const date = new Date(proj.date);
       proj.date = `Created on: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 
       setProject(proj);
     }
+
+    const fetchCurrentUser = async()=>{
+      const responce = await fetch(`http://localhost:5000/api/auth/getuser`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        }
+      });
+      const json = await responce.json();
+      setCurrentUser(json._id);
+    }
     
+    const handleOnClickDeleteProject = async()=>{
+      const responce = await fetch(`http://localhost:5000/api/project/delete-project`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        },
+        body: JSON.stringify({projectId})
+      });
+      await responce.json();
+      props.showAlert("Project and relevant Tickets Deleted Successfully", "success")
+      navigate(`/projects`);
+
+    }
+
     const handleOnClickModifyProject = ()=>{
       navigate(`/modify-project/${project._id}`);
     }
@@ -61,6 +80,7 @@ const ProjectDetail  = (props) => {
 
     useEffect(() => {
       //console.log(users.length);
+      fetchCurrentUser();
       if(users.length === 0) fetchUsers();
       fetchProject();
       fetchTickets();
@@ -76,7 +96,7 @@ const ProjectDetail  = (props) => {
       <div className="card">
       <div className="card-header inline">
         <h5 className='float-start'>{project.projectName}</h5>
-        <button className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>Modify</button>
+        <button disabled={project.developers.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
       </div>
 
       <div className="card-body">    
@@ -134,6 +154,7 @@ const ProjectDetail  = (props) => {
       </div>
       <div className="card-footer text-body-secondary">
         {project.date}
+        <button disabled={project.createdBy!==currentUser} className="btn btn-danger float-end m-1" onClick={handleOnClickDeleteProject}>DELETE PROJECT</button>
       </div>
     </div>}
     </div>
