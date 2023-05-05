@@ -12,7 +12,7 @@ function Home() {
   }, [])
 
   return (
-    <div className="container">
+    <div className="container my-5">
       <Projects/>
     </div>
   )
