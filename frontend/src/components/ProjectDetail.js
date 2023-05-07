@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import projectContext from '../context/project/projectContext';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import TicketItem from './TicketItem';
 import KanbanView from './KanbanView';
 
@@ -101,7 +103,9 @@ const ProjectDetail  = (props) => {
         <div>No KanBan for </div>
         :
         <div className="conatainer border p-3 m-2">
-          <KanbanView tick={tickets} />
+          <DndProvider backend={HTML5Backend}>
+            <KanbanView tick={tickets} />
+          </DndProvider>
         </div>
         }
 
