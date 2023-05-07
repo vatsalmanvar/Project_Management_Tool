@@ -315,4 +315,19 @@ router.get('/get-all-tickets/:id', fetchuser
     }
 })
 
+router.put('/update-ticket-type/:id', fetchuser
+, async (req, res) => {
+    try {
+        const {newType} = req.body;
+        let userWantToFetchAllTicket = req.user.id;
+        let ticket = await Ticket.findById(req.params.id);
+        ticket.ticketType = newType;
+        let newTicket = await Ticket.findByIdAndUpdate(req.params.id, ticket);
+        res.status(200).send(JSON.stringify({"success":"Updated Successfully"}));
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error Occured")
+    }
+})
+
 module.exports = router;

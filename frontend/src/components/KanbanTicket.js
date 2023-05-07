@@ -9,16 +9,16 @@ function KanbanTicket(props) {
 
     const [{isDragging}, drag] = useDrag(()=>({
       type: "ticket",
+      item: {id: ticket._id},
       collect: (monitor) => ({
         isDragging: !!monitor.isDragging()
       })
     }))
-    console.log(isDragging);
 
   return (
     <>
-    <div ref={drag} className="container">
-              <div className="d-flex justify-content-around p-2">
+    <div ref={drag} className={`container border rounded m-1 p-1 ${isDragging ? "opacity-25" : "opacity-100"}`}>
+              <div className="d-flex justify-content-around">
                 <div>
                     <span className="badge bg-light text-dark">{ticket.ticketNumber}</span>
                     <br/>

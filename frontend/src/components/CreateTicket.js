@@ -60,7 +60,7 @@ const CreateTicket = (props) => {
         console.log(userAssociatedWithProject);
         setCreatedBy(userAssociatedWithProject[0])        
         setAssignedTo(userAssociatedWithProject[0])
-        setTicketType("In Development")
+        setTicketType("To Do")
     }
 
     useEffect(() => {
@@ -89,9 +89,9 @@ const CreateTicket = (props) => {
 
                 <div className="border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Ticket Type</label>
-                    <select defaultValue={"In progress"} className="form-select" value={ticketType} onChange={e => setTicketType(e.target.value)} name="ticketType">
-                        <option value="In progress">IN PROGRESS</option>
+                    <select defaultValue={"In Progress"} className="form-select" value={ticketType} onChange={e => setTicketType(e.target.value)} name="ticketType">
                         <option value="To Do">TO DO</option>
+                        <option value="In Progress">IN PROGRESS</option>
                         <option value="QA">QA</option>
                         <option value="Completed">COMPLETED</option>
                     </select>

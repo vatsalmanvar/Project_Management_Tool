@@ -87,8 +87,7 @@ const ProjectDetail  = (props) => {
       if(users.length === 0) fetchUsers();
       fetchProject();
       fetchTickets();
-      // eslint-disable-next-line
-    },[users])
+    },[])
 
 
   return (
@@ -104,7 +103,7 @@ const ProjectDetail  = (props) => {
         :
         <div className="conatainer border p-3 m-2">
           <DndProvider backend={HTML5Backend}>
-            <KanbanView tick={tickets} />
+            <KanbanView tickets={tickets} setTickets={setTickets} />
           </DndProvider>
         </div>
         }
