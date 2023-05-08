@@ -17,7 +17,7 @@ function KanbanTicket(props) {
 
   return (
     <>
-    <div ref={drag} className={`container border rounded m-1 p-1 ${isDragging ? "opacity-25" : "opacity-100"}`}>
+    <div ref={drag} className={`container border rounded m-1 p-1 bg-light ${isDragging ? "opacity-25" : "opacity-100"}`}>
               <div className="d-flex justify-content-around">
                 <div>
                     <span className="badge bg-light text-dark">{ticket.ticketNumber}</span>

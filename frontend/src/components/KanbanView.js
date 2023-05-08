@@ -3,7 +3,7 @@ import KanbanSection from "./KanbanSection";
 
 const KanbanView = (props) => {
 
-  const { tickets, setTickets } = props;
+  const { tickets, setTickets, projectId } = props;
 
   const [todo, setTodo] = useState([]);
   const [QA, setQA] = useState([]);
@@ -11,16 +11,16 @@ const KanbanView = (props) => {
   const [completed, setCompleted] = useState([]);
 
   useEffect(() => {
-    console.log("Kanban View", tickets);
     const ftodo = tickets.filter(it => it.ticketType === 'To Do')
     const fQA = tickets.filter(it => it.ticketType === 'QA')
     const finDevelopment = tickets.filter(it => it.ticketType === 'In Progress')
     const fcompleted = tickets.filter(it => it.ticketType === 'Completed')
-
+    
     setTodo(ftodo);
     setInProgress(finDevelopment);
     setQA(fQA);
     setCompleted(fcompleted);
+    console.log("Kanban View", tickets);
     console.log(ftodo, fQA, finDevelopment, fcompleted)
   }, [tickets]);
 

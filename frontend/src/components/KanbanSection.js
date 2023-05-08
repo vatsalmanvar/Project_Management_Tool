@@ -26,20 +26,27 @@ const KanbanSection = (props) => {
         const res = await responce.json();
         console.log(res);
 
-        console.log("dropped", item.id, sectionName, tickets);
-        const mTickets = tickets.map( it => {
-            if(it._id === item.id){
-                console.log("found", it.ticketNumber, it.ticketType, sectionName);
-                return {...it, ticketType: sectionName};
-            }
-            return it;
+        //console.log("dropped", item.id, sectionName, tickets);
+        // const mTickets = tickets.map( it => {
+        //     if(it._id === item.id){
+        //         console.log("found", it.ticketNumber, it.ticketType, sectionName);
+        //         return {...it, ticketType: sectionName};
+        //     }
+        //     return it;
+        // })
+        // setTickets(mTickets);
+
+        setTickets(prevState => {
+            const newState = prevState.map(it=>{
+                if(it._id === item.id){
+                    return {...it, ticketType: sectionName}
+                }
+                return it;
+            })
+            return newState;
         })
-        setTickets(mTickets);
     }
 
-    // useEffect(() => {
-
-    // }, [tickets])
     
   return (
     <div ref={drop} className={`col-md-3 float-left border rounded ${isOver ? "bg-light" : ""} `}>
@@ -47,7 +54,7 @@ const KanbanSection = (props) => {
         {
         Object.values(specifictickets).map((it) => {
         return (
-                <KanbanTicket ticket={it} />
+                <KanbanTicket key={it._id} ticket={it} />
         );
         })}
     </div>

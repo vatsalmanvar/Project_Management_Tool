@@ -27,6 +27,7 @@ const ProjectDetail  = (props) => {
       });
       const tick = await responce.json();
       setTickets(tick);
+      console.log("Ticket Fetched")
     }
 
     const fetchProject = async()=>{
@@ -97,16 +98,16 @@ const ProjectDetail  = (props) => {
         :
         <>
         
-        { tickets.length===0
+        {/* { tickets.length===0
         ?
-        <div>No KanBan for </div>
+        <div>No Tickets</div>
         :
         <div className="conatainer border p-3 m-2">
           <DndProvider backend={HTML5Backend}>
             <KanbanView tickets={tickets} setTickets={setTickets} />
           </DndProvider>
         </div>
-        }
+        } */}
 
 
 
@@ -118,10 +119,10 @@ const ProjectDetail  = (props) => {
 
           <div className="card-body">    
             <div className="container border border-1 rounded p-3"> 
-            <p className="card-text">
+            <div className="card-text">
             <h5 className="card-title">Description</h5>
               {project.description}
-            </p>
+            </div>
             </div>
 
             <div className="container border border-1 rounded p-3">
@@ -148,6 +149,23 @@ const ProjectDetail  = (props) => {
                 return (
                   <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
               })}
+            </p>
+            </div>
+
+
+            <div className="container border border-1 rounded p-3">
+            <h5 className="card-title">KanBan View</h5>
+            <p className="card-text">
+              { tickets.length===0
+              ?
+              <div>No Tickets</div>
+              :
+              <div className="conatainer border p-3 m-2">
+                <DndProvider backend={HTML5Backend}>
+                  <KanbanView tickets={tickets} setTickets={setTickets} projectId={projectId} />
+                </DndProvider>
+              </div>
+              }
             </p>
             </div>
             
