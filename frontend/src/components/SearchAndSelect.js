@@ -28,7 +28,7 @@ const SearchAndSelect = (props) => {
       setSearchResults([]);
     }
 
-    const hadleRemoveFromAdmin = (e) => {
+    const handleRemoveFromAdmin = (e) => {
       setBuildArray(buildArray.filter(it => it!==e.target.value))
     }
 
@@ -49,7 +49,7 @@ const SearchAndSelect = (props) => {
             {
               searchResults.map((it, index)=>{
                 return(
-                  <option key={index} style={{cursor:'pointer'}} className="list-group-item list-group-item-action border border-1 p-1" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</option>
+                  <option key={index} style={{cursor:'pointer'}} className="list-group-item list-group-item-action border border-1 rounded p-1 m-1" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</option>
                 )
               })
             }
@@ -68,7 +68,7 @@ const SearchAndSelect = (props) => {
               return(
                 <>
                   <br/>
-                  <button key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={hadleRemoveFromAdmin}></button>
+                  <button key={it} value={it} className="fa-sharp fa-solid fa-user-minus" onClick={handleRemoveFromAdmin}></button>
                   <span key={index} className="badge text-bg-dark mx-1">{it}</span>
                 </>
               )

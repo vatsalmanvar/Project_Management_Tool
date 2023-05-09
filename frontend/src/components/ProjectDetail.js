@@ -97,24 +97,11 @@ const ProjectDetail  = (props) => {
         <div className="container">NOT ALLOWED</div>
         :
         <>
-        
-        {/* { tickets.length===0
-        ?
-        <div>No Tickets</div>
-        :
-        <div className="conatainer border p-3 m-2">
-          <DndProvider backend={HTML5Backend}>
-            <KanbanView tickets={tickets} setTickets={setTickets} />
-          </DndProvider>
-        </div>
-        } */}
-
-
 
         <div className="card">
           <div className="card-header inline">
             <h5 className='float-start'>{project.projectName}</h5>
-            <button disabled={project.developers.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
+            <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
           </div>
 
           <div className="card-body">    
@@ -127,46 +114,46 @@ const ProjectDetail  = (props) => {
 
             <div className="container border border-1 rounded p-3">
             <h5 className="card-title">Created By</h5>
-            <p className="card-text">
+            <div className="card-text">
             <span className="badge text-bg-dark mx-1">{userIdToName(project.createdBy)}</span>
-            </p>
+            </div>
             </div>
 
             <div className="container border border-1 rounded p-3">
             <h5 className="card-title">Admin</h5>
-            <p className="card-text">
+            <div className="card-text">
               {project.admin.map((proj, index)=>{
                 return (
                   <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
               })}
-            </p>
+            </div>
             </div>
             
             <div className="container border border-1 rounded p-3">
             <h5 className="card-title">Developers</h5>
-            <p className="card-text">
+            <div className="card-text">
               {project.developers.map((proj, index)=>{
                 return (
                   <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
               })}
-            </p>
+            </div>
             </div>
 
 
             <div className="container border border-1 rounded p-3">
             <h5 className="card-title">KanBan View</h5>
-            <p className="card-text">
+            <div className="card-text">
               { tickets.length===0
               ?
               <div>No Tickets</div>
               :
-              <div className="conatainer border p-3 m-2">
+              <div className="container border p-3 m-2">
                 <DndProvider backend={HTML5Backend}>
                   <KanbanView tickets={tickets} setTickets={setTickets} projectId={projectId} />
                 </DndProvider>
               </div>
               }
-            </p>
+            </div>
             </div>
             
             <div className="container border border-1 rounded p-3">
