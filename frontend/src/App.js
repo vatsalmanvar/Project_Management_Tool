@@ -14,6 +14,9 @@ import CreateProject from './components/CreateProject';
 import ModifyProject from './components/ModifyProject';
 import CreateTicket from './components/CreateTicket';
 import ModifyTicket from './components/ModifyTicket';
+import AllSprints from './components/AllSprints';
+import SprintDetail from './components/SprintDetail';
+import CreateSprint from './components/CreateSprint';
 
 function App() {
 
@@ -43,6 +46,9 @@ function App() {
             <Route exact path="/login" element={<Login showAlert={showAlert}/>}></Route>
             <Route exact path="/signup" element={<Signup showAlert={showAlert}/>}></Route>
             <Route exact path="/project/:projectId" element={<ProjectDetail showAlert={showAlert}/>}></Route>
+            <Route exact path="/project/:projectId/all-sprint" element={<AllSprints showAlert={showAlert}/>}></Route>
+            <Route exact path="/project/:projectId/sprint/:sprintId" element={<SprintDetail showAlert={showAlert}/>}></Route>
+            <Route exact path="/project/:projectId/create-sprint" element={<CreateSprint showAlert={showAlert}/>}></Route>
             <Route exact path="/ticket/:ticketId" element={<TicketDetail showAlert={showAlert}/>}></Route>
             <Route exact path="/create-project" element={<CreateProject showAlert={showAlert}/>}></Route>
             <Route exact path="/modify-project/:projectId" element={<ModifyProject showAlert={showAlert}/>}></Route>

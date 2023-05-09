@@ -10,14 +10,14 @@ const Projects = (props) => {
     const {fetchUsers} = context;
     const [projects, setProjects] = useState([]);
     const fetchAllProject = async()=>{
-      const responce = await fetch(`http://localhost:5000/api/project/get-all-projects`, {
+      const response = await fetch(`http://localhost:5000/api/project/get-all-projects`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'auth-token' : localStorage.getItem('token')
         }
     });
-    const json = await responce.json();
+    const json = await response.json();
     setProjects(json)
     //console.log(json)
     }
@@ -45,7 +45,7 @@ const Projects = (props) => {
             :
             projects.map((proj, index)=>{
               return (<div className="col-md-4" key={index}>
-                <Link to={`/project/${proj._id}`}> <ProjectItem project={proj} /> </Link>
+                <Link key={proj._id} to={`/project/${proj._id}`}> <ProjectItem project={proj} /> </Link>
               </div>)
             })
           }

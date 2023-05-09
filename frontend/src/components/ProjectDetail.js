@@ -71,11 +71,14 @@ const ProjectDetail  = (props) => {
       await responce.json();
       props.showAlert("Project and relevant Tickets Deleted Successfully", "success")
       navigate(`/projects`);
-
     }
 
     const handleOnClickModifyProject = ()=>{
       navigate(`/modify-project/${project._id}`);
+    }
+
+    const handleOnClickGoToSprint = ()=>{
+      navigate(`/project/${project._id}/all-sprint`);
     }
 
     const handleOnClickNewTicket = ()=>{
@@ -88,6 +91,7 @@ const ProjectDetail  = (props) => {
       if(users.length === 0) fetchUsers();
       fetchProject();
       fetchTickets();
+      // eslint-disable-next-line
     },[])
 
 
@@ -102,9 +106,10 @@ const ProjectDetail  = (props) => {
           <div className="card-header inline">
             <h5 className='float-start'>{project.projectName}</h5>
             <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
+            <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickGoToSprint}>GO TO SPRINT</button>
           </div>
 
-          <div className="card-body">    
+          <div className="card-body"> 
             <div className="container border border-1 rounded p-3"> 
             <div className="card-text">
             <h5 className="card-title">Description</h5>
@@ -124,7 +129,7 @@ const ProjectDetail  = (props) => {
             <div className="card-text">
               {project.admin.map((proj, index)=>{
                 return (
-                  <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
+                  <span className="badge text-bg-dark mx-1" key={proj._id}>{userIdToName(proj)}</span>)
               })}
             </div>
             </div>
@@ -134,7 +139,7 @@ const ProjectDetail  = (props) => {
             <div className="card-text">
               {project.developers.map((proj, index)=>{
                 return (
-                  <span className="badge text-bg-dark mx-1" key={index}>{userIdToName(proj)}</span>)
+                  <span className="badge text-bg-dark mx-1" key={proj._id}>{userIdToName(proj)}</span>)
               })}
             </div>
             </div>
@@ -166,7 +171,7 @@ const ProjectDetail  = (props) => {
                 tickets.map((tick, index)=>{
                   return (
                     <div>
-                      <Link  to={`/ticket/${tick._id}`}> <TicketItem ticket={tick} /> </Link>
+                      <Link key={tick._id}  to={`/ticket/${tick._id}`}> <TicketItem ticket={tick} /> </Link>
                     </div>
                     )
                   })

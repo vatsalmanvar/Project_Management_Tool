@@ -17,14 +17,14 @@ const ModifyProject = (props) => {
     const [description, setDescription] = useState("")
 
     const fetchProject = async()=>{
-      const responce = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
+      const response = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'auth-token' : localStorage.getItem('token')
         }
       });
-      const proj = await responce.json();
+      const proj = await response.json();
 
       // changing "user-id" to "user-name"
       proj.createdBy = userIdToEmail(proj.createdBy);

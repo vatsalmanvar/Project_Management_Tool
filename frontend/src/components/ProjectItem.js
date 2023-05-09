@@ -8,8 +8,8 @@ function ProjectItem(props) {
     <div className="container">
           <div className="card my-3" >
               <div className="card-body">
-                  <h5><p className="card-text">{project.projectName}</p></h5>
-                  <p className="card-text">{project.description}</p>
+                  <h5><div className="card-text">{project.projectName}</div></h5>
+                  <div className="card-text">{project.description}</div>
                   <small className="text-muted" style={{ float:"right"}}>Created on: {date.getDate()}/{date.getMonth()}/{date.getFullYear()}</small>
               </div>
           </div>
