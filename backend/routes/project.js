@@ -175,8 +175,8 @@ router.delete('/delete-project', fetchuser, [
 // ROUTE 1: Create ticket for a particular project: POST '/api/project/create-ticket' login required
 router.post('/create-ticket', fetchuser, [
     body('projectId', 'Enter a valid project-Id').isLength({ min: 1 }),
-    body('createdBy', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 }),
-    body('assignedTo', 'Enter a valid project-name of atleast 2 character').isLength({ min: 2 })
+    body('createdBy', 'Enter a valid created by of atleast 2 character').isLength({ min: 2 }),
+    body('assignedTo', 'Enter a valid assigned to of atleast 2 character').isLength({ min: 2 })
 ], async (req, res) => {
     try {
         const {projectId, title, description, createdBy, assignedTo, ticketType} = req.body;

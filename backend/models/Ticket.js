@@ -29,7 +29,7 @@ const TicketSchema = new Schema({
     },
     ticketType:{
         type: String,
-        defalut: "In Development"
+        default: "To Do"
     },
     date:{
         type: Date,

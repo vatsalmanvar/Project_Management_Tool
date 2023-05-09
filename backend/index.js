@@ -11,6 +11,7 @@ app.use(express.json())
 
 // Available Routes
 app.use('/api/auth', require('./routes/auth'))
+app.use('/api/sprint', require('./routes/sprint'))
 app.use('/api/project', require('./routes/project'))
 
 
