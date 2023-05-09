@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.userList{
+    position: absolute;
+    width: 100%;
+    background: white;
+}

@@ -8,14 +8,14 @@ const ProjectState = (props)=>{
 
     // Get all users
     const fetchUsers = async()=>{
-        const responce1 = await fetch(`${host}/api/auth/get-all-user`, {
+        const response1 = await fetch(`${host}/api/auth/get-all-user`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
               'auth-token' : localStorage.getItem('token')
           }
         });
-        setUsers(await responce1.json())
+        setUsers(await response1.json())
     }
 
     const userIdToName = (userId)=>{

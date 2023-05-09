@@ -45,14 +45,15 @@ const SearchAndSelect = (props) => {
         <div className="mb-3 border rounded-1 p-2">
           <label className="form-label">Search Email</label>
           <input type="text" placeholder="Enter Email here..." className="form-control" value={searchInput} onChange={handleSearchChange}/>
-        
-          {
-            searchResults.map((it, index)=>{
-              return(
-                <option key={index} style={{cursor:'pointer'}} className="list-group-item list-group-item-action border border-1 p-1" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</option>
-              )
-            })
-          }
+          <div className='userList shadow'>
+            {
+              searchResults.map((it, index)=>{
+                return(
+                  <option key={index} style={{cursor:'pointer'}} className="list-group-item list-group-item-action border border-1 p-1" value={it.email} onClick={handleOnClickOnSearch}>{it.email}</option>
+                )
+              })
+            }
+          </div>
         </div>
         </h6>
 
