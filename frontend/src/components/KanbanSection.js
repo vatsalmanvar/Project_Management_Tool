@@ -15,7 +15,7 @@ const KanbanSection = (props) => {
 
     const addItemToSection = async(item)=>{
         const newType = sectionName;
-        const responce = await fetch(`http://localhost:5000/api/project/update-ticket-type/${item.id}`, {
+        const response = await fetch(`http://localhost:5000/api/project/update-ticket-type/${item.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const KanbanSection = (props) => {
             },
             body: JSON.stringify({newType})
         });
-        const res = await responce.json();
+        const res = await response.json();
         console.log(res);
 
         //console.log("dropped", item.id, sectionName, tickets);

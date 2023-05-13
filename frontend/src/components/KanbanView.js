@@ -20,8 +20,8 @@ const KanbanView = (props) => {
     setInProgress(finDevelopment);
     setQA(fQA);
     setCompleted(fcompleted);
-    console.log("Kanban View", tickets);
-    console.log(ftodo, fQA, finDevelopment, fcompleted)
+    // console.log("Kanban View", tickets);
+    // console.log(ftodo, fQA, finDevelopment, fcompleted)
   }, [tickets]);
 
   return (

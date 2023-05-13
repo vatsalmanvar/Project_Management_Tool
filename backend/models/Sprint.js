@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const SprintSchema = new Schema({
     sprintName:{
-        type: string,
+        type: String,
         require: true
     },
     projectId:{
@@ -27,7 +27,7 @@ const SprintSchema = new Schema({
         require: true
     },
     status:{
-        type: string,
+        type: String,
         default: "Inactive"
     },
     date:{

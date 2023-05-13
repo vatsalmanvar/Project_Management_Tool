@@ -16,7 +16,6 @@ const CreateProject = (props) => {
     const handleOnChange = (e)=>{
       if(e.target.name === "projectName") setProjectName(e.target.value);
       if(e.target.name === "description") setDescription(e.target.value);
-      
     }
 
     const handleFormSubmit = async (e) => {
