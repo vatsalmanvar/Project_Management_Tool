@@ -51,4 +51,19 @@ router.post('/create-sprint', fetchuser , [
 
 })
 
+// ROUTE 2: Get all sprints for specific project : GET '/api/sprint/all-sprint/:projectId" login required
+router.get('/all-sprint/:projectId', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const {projectId} = req.params;
+
+        const sprints = await Sprint.find({projectId})
+        
+        res.status(200).send(sprints);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error Occurred")
+    }
+})
+
 module.exports = router;

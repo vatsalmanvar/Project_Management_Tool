@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import projectContext from '../context/project/projectContext';
+import SprintItem from './SprintItem';
 
 const AllSprints = (props) => {
     
@@ -8,32 +9,31 @@ const AllSprints = (props) => {
     let navigate = useNavigate(); 
     const context = useContext(projectContext);
     const {fetchUsers} = context;
-    const [projectId, setProjectId] = useState(params.projectId)
-    const [projects, setProjects] = useState([]);
+    const [projectId] = useState(params.projectId)
     const [sprints, setSprints] = useState([]);
 
     const fetchAllSprints = async()=>{
-    //   const response = await fetch(`http://localhost:5000/api/project/get-all-projects`, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'auth-token' : localStorage.getItem('token')
-    //     }
-    //});
-    //const json = await response.json();
-    //setProjects(json)
-    //console.log(json)
+      const response = await fetch(`http://localhost:5000/api/sprint/all-sprint/${projectId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        }
+      });
+      const json = await response.json();
+      setSprints(json)
+      console.log(json)
+    }
+
+    const routeChange = () =>{ 
+      let path = `/project/${projectId}/create-sprint`; 
+      navigate(path);
     }
 
     useEffect(() => {
       fetchAllSprints();
       // eslint-disable-next-line
     },[])
-
-    const routeChange = () =>{ 
-        let path = `/project/${projectId}/create-sprint`; 
-        navigate(path);
-    }
 
   return (
     <>
@@ -46,8 +46,8 @@ const AllSprints = (props) => {
             <div><p>NO SPRINTS CREATED</p></div>
             :
             Object.values(sprints).map((spr, index)=>{
-              return (<div className="col-md-4" key={index}>
-                <Link key={spr._id} to={`/project/${projectId}/sprint/${spr._id}`}> Component for SprintItem </Link>
+              return (<div className="" key={index}>
+                <Link key={spr._id} to={`/project/${projectId}/sprint/${spr._id}`}> <SprintItem sprint={spr} /> </Link>
               </div>)
             })
           }

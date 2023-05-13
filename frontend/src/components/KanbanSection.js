@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import KanbanTicket from './KanbanTicket';
 import { useDrop } from 'react-dnd';
 
 const KanbanSection = (props) => {
-    const{specifictickets, tickets, sectionName, setTickets} = props;
+    const{specifictickets, sectionName, setTickets} = props;
 
     const [{isOver}, drop] = useDrop(()=>({
         accept: "ticket",

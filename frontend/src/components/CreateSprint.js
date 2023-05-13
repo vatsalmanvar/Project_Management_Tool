@@ -13,7 +13,7 @@ const CreateSprint = (props) => {
     const context = useContext(projectContext);
     const {users, fetchUsers} = context;
     const [sprintName, setSprintName] = useState("");
-    const [projectId, setProjectId] = useState(params.projectId)
+    const [projectId] = useState(params.projectId)
     const [tickets, setTickets] = useState([])
     const [checkedTickets, setCheckedTickets] = useState([])
     const [startDate, setStartDate] = useState(new Date());
