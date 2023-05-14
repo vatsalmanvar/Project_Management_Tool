@@ -29,14 +29,27 @@ const TicketSchema = new Schema({
     },
     ticketType:{
         type: String,
-        default: "To Do"
+        default: "Task"
     },
     ticketStatus:{
         type: String,
-        default: "task"
+        default: "To Do"
     },
     history:{
-        type: [String],
+        type: [{
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true
+            },
+            date:{
+                type: Date,
+                default: Date.now
+            },
+            description: {
+                type: [String],
+                required: true
+            }            
+        }],
         default: []
     },
     date:{

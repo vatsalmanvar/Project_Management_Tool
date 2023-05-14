@@ -11,10 +11,10 @@ const KanbanView = (props) => {
   const [completed, setCompleted] = useState([]);
 
   useEffect(() => {
-    const ftodo = tickets.filter(it => it.ticketType === 'To Do')
-    const fQA = tickets.filter(it => it.ticketType === 'QA')
-    const finDevelopment = tickets.filter(it => it.ticketType === 'In Progress')
-    const fcompleted = tickets.filter(it => it.ticketType === 'Completed')
+    const ftodo = tickets.filter(it => it.ticketStatus === 'To Do')
+    const fQA = tickets.filter(it => it.ticketStatus === 'QA')
+    const finDevelopment = tickets.filter(it => it.ticketStatus === 'In Progress')
+    const fcompleted = tickets.filter(it => it.ticketStatus === 'Completed')
     
     setTodo(ftodo);
     setInProgress(finDevelopment);

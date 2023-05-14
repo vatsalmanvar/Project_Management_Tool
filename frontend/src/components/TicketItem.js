@@ -19,6 +19,9 @@ function TicketItem(props) {
                     <span className="badge bg-info text-dark">{ticket.ticketType}</span>
                 </div>
                 <div className='mx-2'>
+                    <span className="badge bg-info text-dark">{ticket.ticketStatus}</span>
+                </div>
+                <div className='mx-2'>
                     <span className="badge bg-light text-dark">{userIdToName(ticket.createdBy)}</span>
                     <i className="fa-solid fa-right-long mx-2"></i>
                     <span className="badge bg-light text-dark">{userIdToName(ticket.assignedTo)}</span>

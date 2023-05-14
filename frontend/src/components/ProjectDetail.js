@@ -165,7 +165,7 @@ const ProjectDetail  = (props) => {
                 {
                 tickets.length===0
                 ?
-                <div><p>None of tickets are created</p></div>
+                <div><p>Tickets does not exist</p></div>
                 :
                 tickets.map((tick, index)=>{
                   return (

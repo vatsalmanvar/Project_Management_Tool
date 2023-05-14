@@ -66,6 +66,13 @@ const TicketDetail  = (props) => {
         </div>
 
         <div className="border border-1 rounded m-3 p-3">
+        <h5 className="card-title">Ticket Status</h5>
+        <div className="card-text">
+        <span className="badge text-bg-light mx-1">{ticket.ticketStatus}</span>
+        </div>
+        </div>
+
+        <div className="border border-1 rounded m-3 p-3">
         <h5 className="card-title">Created By</h5>
         <div className="card-text">
         <span className="badge text-bg-dark mx-1">{ticket.createdBy}</span>
@@ -76,6 +83,39 @@ const TicketDetail  = (props) => {
         <h5 className="card-title">Assigned to </h5>
         <div className="card-text">
         <span className="badge text-bg-dark mx-1">{ticket.assignedTo}</span>
+        </div>
+        </div>
+
+        <div className="border border-1 rounded m-3 p-3">
+        <h5 className="card-title">History of Modification</h5>
+        <div className="card-text">
+          {
+            ticket.history.length===0
+            ?
+            <div>No History</div>
+            :
+            ticket.history.map((it)=>{
+              const date = new Date(it.date)
+              var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+
+              return (
+                <div key={it._id} className="border border-3 rounded p-2 m-1">
+                  <span className="badge bg-info text-dark mx-1">{userIdToName(it.user)}</span>
+                  <span className="badge text-bg-warning mx-1"> {date.getDate()}/{date.getMonth()}/{date.getFullYear()} {days[date.getDay()]} {date.getHours()}:{date.getMinutes()}:{date.getSeconds()} </span> 
+                    <br/>
+                    {
+                    it.description.map((it1)=>{
+                      return (
+                        <div key={it1._id}>
+                        <span class="badge bg-light text-dark">{it1}</span>
+                        </div>
+                      )
+                    })
+                    }
+                </div>
+              )
+            })
+          }
         </div>
         </div>
 

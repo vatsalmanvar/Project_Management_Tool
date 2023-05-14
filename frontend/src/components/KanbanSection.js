@@ -14,14 +14,14 @@ const KanbanSection = (props) => {
     }))
 
     const addItemToSection = async(item)=>{
-        const newType = sectionName;
-        const response = await fetch(`http://localhost:5000/api/project/update-ticket-type/${item.id}`, {
+        const newStatus = sectionName;
+        const response = await fetch(`http://localhost:5000/api/project/update-ticket-status/${item.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token' : localStorage.getItem('token')
             },
-            body: JSON.stringify({newType})
+            body: JSON.stringify({newStatus})
         });
         const res = await response.json();
         console.log(res);
@@ -39,7 +39,7 @@ const KanbanSection = (props) => {
         setTickets(prevState => {
             const newState = prevState.map(it=>{
                 if(it._id === item.id){
-                    return {...it, ticketType: sectionName}
+                    return {...it, ticketStatus: sectionName}
                 }
                 return it;
             })
@@ -54,7 +54,9 @@ const KanbanSection = (props) => {
         {
         Object.values(specifictickets).map((it) => {
         return (
+            <div key={it._id}>
                 <KanbanTicket key={it._id} ticket={it} />
+            </div>
         );
         })}
     </div>

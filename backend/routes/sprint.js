@@ -74,16 +74,7 @@ router.get('/:sprintId', fetchuser, async (req, res) => {
 
         const sprint = await Sprint.findById(sprintId)
         if(!sprint) res.status(404).send({"result":"Sprint not found"})
-        
-        // let TicketsObj = [];
-        // for (let i = 0; i < sprint.tickets.length; i++) {
-        //     const element = sprint.tickets[i];
-        //     const tickObj = await Ticket.findById(element)
-        //     console.log(tickObj)
-        //     TicketsObj.push(tickObj);
-        //     sprint.tickets[i] = tickObj
-        // }
-        // sprint.tickets = TicketsObj        
+      
         res.status(200).send(sprint);
     } catch (error) {
         console.error(error.message);

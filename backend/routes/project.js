@@ -179,7 +179,7 @@ router.post('/create-ticket', fetchuser, [
     body('assignedTo', 'Enter a valid assigned to of atleast 2 character').isLength({ min: 2 })
 ], async (req, res) => {
     try {
-        const {projectId, title, description, createdBy, assignedTo, ticketType} = req.body;
+        const {projectId, title, description, createdBy, assignedTo, ticketType, ticketStatus} = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -200,8 +200,9 @@ router.post('/create-ticket', fetchuser, [
         if(exist){return res.status(400).send('Ticket Number is already existed')}
 
         const newTicket = new Ticket({
-            ticketNumber, projectName: projectObject._id, title,  description, createdBy:createdByObject._id, assignedTo: assignedToObject._id, ticketType
+            ticketNumber, projectName: projectObject._id, title,  description, createdBy:createdByObject._id, assignedTo: assignedToObject._id, ticketType, ticketStatus
         })
+
         let newTicketNumber = projectObject.nextTicketNumber+1;
         const updatedProject = await Project.findByIdAndUpdate(projectObject._id, { nextTicketNumber: newTicketNumber});
         const savedTicket = await newTicket.save();
@@ -258,7 +259,7 @@ router.get('/get-ticket/:id', fetchuser
 // ROUTE 4: Update ticket for a particular project: PUT '/api/project/modify-ticket/:id' login required
 router.put('/modify-ticket/:id', fetchuser, async (req, res) => {
     try {
-        const {projectName, title, description, assignedTo, ticketType} = req.body;
+        const {title, description, assignedTo, ticketType, ticketStatus} = req.body;
         
         let ticket = await Ticket.findById(req.params.id);
         if(!ticket) {return res.status(404).send("Ticket Not Found")}
@@ -271,19 +272,44 @@ router.put('/modify-ticket/:id', fetchuser, async (req, res) => {
         }
 
         // found the ticket and allowed to modify the ticket
-        if(title){ticket.title = title;}
-        if(description){ticket.description = description;}
-        if(ticketType){ticket.ticketType = ticketType;}
-        if(assignedTo){
+        let newHistory = {
+            user: req.user.id,
+            description: []
+        }
+
+        if(ticket.title !== title){
+            newHistory.description.push(`TITLE "${ticket.title}" To "${title}"`)
+            ticket.title = title;
+        }
+        if(ticket.description !== description){
+            newHistory.description.push(`DESCRIPTION "${ticket.description}" To "${description}"`)
+            ticket.description = description;
+        }
+        if(ticket.ticketType !== ticketType){
+            newHistory.description.push(`TYPE "${ticket.ticketType}" To "${ticketType}"`)
+            ticket.ticketType = ticketType;
+        }
+        if(ticket.ticketStatus !== ticketStatus){
+            newHistory.description.push(`STATUS "${ticket.ticketStatus}" To "${ticketStatus}`)
+            ticket.ticketStatus = ticketStatus;
+        }
+        if(ticket.assignedTo != assignedTo){
+            let prevAssignedToObj = await User.findById(ticket.assignedTo);
             let assignedToObject = await User.findById(assignedTo);
             if(!assignedToObject){return res.status(404).send("Assigned-to user does not exist")}
             let assignedToUserId = assignedToObject._id;
             if(!project.admin.includes(assignedToUserId) && !project.developers.includes(assignedToUserId)){
                 return res.status(401).send("Assigned-to user is not a part of this PROJECT")
             }
+
+            newHistory.description.push(`ASSIGNED-TO from "${prevAssignedToObj.email} To "${assignedToObject.email}"`)
             ticket.assignedTo = assignedToUserId;
         }
         
+        if(newHistory.description.length!==0){
+            ticket.history.push(newHistory)
+        }
+
         let newTicket = await Ticket.findByIdAndUpdate(ticket._id, ticket);
         newTicket = await Ticket.findById(ticket.id);
         res.status(200).send(newTicket)
@@ -315,13 +341,22 @@ router.get('/get-all-tickets/:id', fetchuser
     }
 })
 
-router.put('/update-ticket-type/:id', fetchuser
+// ROUTE 6: Change the ticket-Type: PUT `/api/project/update-ticket-type/:id` login required
+router.put('/update-ticket-status/:id', fetchuser
 , async (req, res) => {
     try {
-        const {newType} = req.body;
+        let currentDate = new Date();
+        const {newStatus} = req.body;
         let userWantToFetchAllTicket = req.user.id;
         let ticket = await Ticket.findById(req.params.id);
-        ticket.ticketType = newType;
+        if(ticket.ticketStatus !== newStatus){
+            let newHistory = {
+                user: req.user.id,
+                description: [`STATUS from "${ticket.ticketStatus}" to "${newStatus}"`]
+            }
+            ticket.history.push(newHistory);
+            ticket.ticketStatus = newStatus;
+        }
         let newTicket = await Ticket.findByIdAndUpdate(req.params.id, ticket);
         res.status(200).send(JSON.stringify({"success":"Updated Successfully"}));
     } catch (error) {

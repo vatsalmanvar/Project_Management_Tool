@@ -11,19 +11,21 @@ const CreateTicket = (props) => {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [ticketType, setTicketType] = useState("")
+    const [ticketStatus, setTicketStatus] = useState("")
     const [userOfThisProject, setUserOfThisProject] = useState([])
     const [createdBy, setCreatedBy] = useState("")
     const [assignedTo, setAssignedTo] = useState("")
 
     const handleFormSubmit = async (e) => {
       e.preventDefault();
+      console.log(ticketType, ticketStatus)
       const response = await fetch("http://localhost:5000/api/project/create-ticket", {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
               'auth-token': localStorage.getItem('token')
           },
-          body: JSON.stringify({projectId, title, description, createdBy, assignedTo, ticketType})
+          body: JSON.stringify({projectId, title, description, createdBy, assignedTo, ticketType, ticketStatus})
       });
       const json = await response.json()
       console.log(json);
@@ -39,14 +41,14 @@ const CreateTicket = (props) => {
     }
 
     const fetchProject = async()=>{
-        const responce = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
+        const response = await fetch(`http://localhost:5000/api/project/get-project/${projectId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'auth-token' : localStorage.getItem('token')
         }
         });
-        const proj = await responce.json();
+        const proj = await response.json();
 
         let userAssociatedWithProject = [];
         userAssociatedWithProject.push(proj.createdBy);
@@ -60,7 +62,8 @@ const CreateTicket = (props) => {
         console.log(userAssociatedWithProject);
         setCreatedBy(userAssociatedWithProject[0])        
         setAssignedTo(userAssociatedWithProject[0])
-        setTicketType("To Do")
+        setTicketStatus("To Do")
+        setTicketType("Task")
     }
 
     useEffect(() => {
@@ -89,7 +92,19 @@ const CreateTicket = (props) => {
 
                 <div className="border border-1 rounded m-3 p-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Ticket Type</label>
-                    <select defaultValue={"In Progress"} className="form-select" value={ticketType} onChange={e => setTicketType(e.target.value)} name="ticketType">
+                    <select defaultValue={"Task"} className="form-select" value={ticketType} onChange={e => setTicketType(e.target.value)} name="ticketType">
+                        <option value="Task">TASK</option>
+                        <option value="Story">STORY</option>
+                        <option value="Bug">BUG</option>
+                        <option value="New Feature">NEW FEATURE</option>
+                        <option value="Improvement">IMPROVEMENT</option>
+                        <option value="Spike">SPIKE</option>
+                    </select>
+                </div>
+
+                <div className="border border-1 rounded m-3 p-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">Ticket Status</label>
+                    <select defaultValue={"To Do"} className="form-select" value={ticketStatus} onChange={e => setTicketStatus(e.target.value)} name="ticketStatus">
                         <option value="To Do">TO DO</option>
                         <option value="In Progress">IN PROGRESS</option>
                         <option value="QA">QA</option>
