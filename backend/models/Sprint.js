@@ -6,13 +6,16 @@ const SprintSchema = new Schema({
         type: String,
         require: true
     },
+    description:{
+        type: String,
+        require: true
+    },
     projectId:{
         type: mongoose.Schema.Types.ObjectId,
         require: true
     },
     tickets:{
-        type: [mongoose.Schema.Types.ObjectId],
-        require: true
+        type: [mongoose.Schema.Types.ObjectId]
     },
     startDate:{
         type: Date,
@@ -29,6 +32,10 @@ const SprintSchema = new Schema({
     status:{
         type: String,
         default: "Inactive"
+    },
+    history:{
+        type: [String],
+        default: []
     },
     date:{
         type: Date,

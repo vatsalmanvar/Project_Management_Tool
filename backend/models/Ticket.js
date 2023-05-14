@@ -31,6 +31,14 @@ const TicketSchema = new Schema({
         type: String,
         default: "To Do"
     },
+    ticketStatus:{
+        type: String,
+        default: "task"
+    },
+    history:{
+        type: [String],
+        default: []
+    },
     date:{
         type: Date,
         default: Date.now

@@ -90,7 +90,7 @@ const ModifyTicket = (props) => {
   return (
     <div className="card">
         <div className="card-header inline">
-          <h5 className='float-start'>CREATE TICKET</h5>
+          <h5 className='float-start'>MODIFY TICKET</h5>
         </div>
 
         <div className="card-body">  
