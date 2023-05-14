@@ -66,4 +66,29 @@ router.get('/all-sprint/:projectId', fetchuser, async (req, res) => {
     }
 })
 
+// ROUTE 3: Get specific sprint for the project : GET `/api/sprint/:sprintId`
+router.get('/:sprintId', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const {sprintId} = req.params;
+
+        const sprint = await Sprint.findById(sprintId)
+        if(!sprint) res.status(404).send({"result":"Sprint not found"})
+        
+        // let TicketsObj = [];
+        // for (let i = 0; i < sprint.tickets.length; i++) {
+        //     const element = sprint.tickets[i];
+        //     const tickObj = await Ticket.findById(element)
+        //     console.log(tickObj)
+        //     TicketsObj.push(tickObj);
+        //     sprint.tickets[i] = tickObj
+        // }
+        // sprint.tickets = TicketsObj        
+        res.status(200).send(sprint);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error Occurred")
+    }
+})
+
 module.exports = router;

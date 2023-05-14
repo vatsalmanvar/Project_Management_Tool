@@ -129,7 +129,7 @@ const ProjectDetail  = (props) => {
             <div className="card-text">
               {project.admin.map((proj, index)=>{
                 return (
-                  <span className="badge text-bg-dark mx-1" key={proj._id}>{userIdToName(proj)}</span>)
+                  <span className="badge text-bg-dark mx-1" key={proj}>{userIdToName(proj)}</span>)
               })}
             </div>
             </div>
@@ -139,11 +139,10 @@ const ProjectDetail  = (props) => {
             <div className="card-text">
               {project.developers.map((proj, index)=>{
                 return (
-                  <span className="badge text-bg-dark mx-1" key={proj._id}>{userIdToName(proj)}</span>)
+                  <span className="badge text-bg-dark mx-1" key={proj}>{userIdToName(proj)}</span>)
               })}
             </div>
             </div>
-
 
             <div className="container border border-1 rounded p-3">
             <h5 className="card-title">KanBan View</h5>
