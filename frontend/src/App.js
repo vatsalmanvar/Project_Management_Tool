@@ -18,6 +18,7 @@ import AllSprints from './components/AllSprints';
 import SprintDetail from './components/SprintDetail';
 import CreateSprint from './components/CreateSprint';
 import ModifySprint from './components/ModifySprint';
+import KanbanFilter from './components/KanbanFilter';
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
             <Route exact path="/login" element={<Login showAlert={showAlert}/>}></Route>
             <Route exact path="/signup" element={<Signup showAlert={showAlert}/>}></Route>
             <Route exact path="/project/:projectId" element={<ProjectDetail showAlert={showAlert}/>}></Route>
+            <Route exact path="/project/:projectId/kanban-view" element={<KanbanFilter showAlert={showAlert}/>}></Route>
             <Route exact path="/project/:projectId/all-sprint" element={<AllSprints showAlert={showAlert}/>}></Route>
             <Route exact path="/project/:projectId/sprint/:sprintId" element={<SprintDetail showAlert={showAlert}/>}></Route>
             <Route exact path="/project/:projectId/create-sprint" element={<CreateSprint showAlert={showAlert}/>}></Route>

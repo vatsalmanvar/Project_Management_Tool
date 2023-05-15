@@ -82,6 +82,10 @@ const ProjectDetail  = (props) => {
       navigate(`/project/${project._id}/all-sprint`);
     }
 
+    const handleOnClickGoToKanban = ()=>{
+      navigate(`/project/${project._id}/kanban-view`);
+    }
+
     const handleOnClickNewTicket = ()=>{
       navigate(`/project/${project._id}/create-ticket`)
     }
@@ -108,6 +112,7 @@ const ProjectDetail  = (props) => {
             <h5 className='float-start'>{project.projectName}</h5>
             <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
             <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickGoToSprint}>GO TO SPRINT</button>
+            <button className="btn btn-primary float-end m-1" onClick={handleOnClickGoToKanban}>KANBAN VIEW</button>
           </div>
 
           <div className="card-body"> 
@@ -179,6 +184,7 @@ const ProjectDetail  = (props) => {
                 <button className="btn btn-primary mx-3 my-1" onClick={handleOnClickNewTicket}>New Ticket</button>
             </div>
           </div>
+
           <div className="card-footer text-body-secondary">
             {project.date}          
             <button disabled={project.createdBy!==currentUser} type="button"  className="btn btn-danger float-end m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
