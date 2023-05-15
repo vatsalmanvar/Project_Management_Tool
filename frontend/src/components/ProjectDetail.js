@@ -16,6 +16,7 @@ const ProjectDetail  = (props) => {
     const [project, setProject] = useState([]);
     const [tickets, setTickets] = useState([]);
     const [currentUser, setCurrentUser] = useState([]);
+    const [deleteConfirmString, setDeleteConfirmString] = useState("");
 
     const fetchTickets = async()=>{
       const responce = await fetch(`http://localhost:5000/api/project/get-all-tickets/${projectId}`, {
@@ -181,6 +182,33 @@ const ProjectDetail  = (props) => {
           <div className="card-footer text-body-secondary">
             {project.date}
             <button disabled={project.createdBy!==currentUser} className="btn btn-danger float-end m-1" onClick={handleOnClickDeleteProject}>DELETE PROJECT</button>
+          
+            <button disabled={project.createdBy!==currentUser} type="button"  className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              DELETE PROJECT
+            </button>
+
+            <div  className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div  className="modal-dialog">
+                <div  className="modal-content">
+                  <div  className="modal-header">
+                    <h5  className="modal-title" id="exampleModalLabel">DELETE PROJECT</h5>
+                    <button type="button"  className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  
+                  <div  className="modal-body my-1">
+                    <div>Confirm by writing project name given below</div>
+                    <div><b>{project.projectName}</b></div>
+                    <input type="text" className="form-control my-3" value={deleteConfirmString} onChange={e => {setDeleteConfirmString(e.target.value); console.log(project.projectName, deleteConfirmString)}}/>
+                  </div>
+
+                  <div  className="modal-footer my-1">
+                    <button disabled={project.projectName !== deleteConfirmString} data-bs-dismiss="modal" onClick={handleOnClickDeleteProject} type="button"  className="btn btn-danger">DELETE</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          
           </div>
         </div>
       </>

@@ -35,6 +35,10 @@ const TicketSchema = new Schema({
         type: String,
         default: "To Do"
     },
+    currentSprint:{
+        type: mongoose.Schema.Types.ObjectId,
+        default: null
+    },
     history:{
         type: [{
             user: {
