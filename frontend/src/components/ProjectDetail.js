@@ -149,22 +149,6 @@ const ProjectDetail  = (props) => {
               })}
             </div>
             </div>
-
-            <div className="container border border-1 rounded p-3">
-            <h5 className="card-title">KanBan View</h5>
-            <div className="card-text">
-              { tickets.length===0
-              ?
-              <div>No Tickets</div>
-              :
-              <div className="container border p-3 m-2">
-                <DndProvider backend={HTML5Backend}>
-                  <KanbanView tickets={tickets} setTickets={setTickets} projectId={projectId} />
-                </DndProvider>
-              </div>
-              }
-            </div>
-            </div>
             
             <div className="container border border-1 rounded p-3">
               <h5 className="card-title">Tickets</h5>
@@ -201,7 +185,7 @@ const ProjectDetail  = (props) => {
                   
                   <div  className="modal-body my-1">
                     <div>Confirm by writing project name given below</div>
-                    <div><b>{project.projectName}</b></div>
+                    <div><b style={{"user-select": "none"}}>{project.projectName}</b></div>
                     <input type="text" className="form-control my-3" value={deleteConfirmString} onChange={e => {setDeleteConfirmString(e.target.value); console.log(project.projectName, deleteConfirmString)}}/>
                   </div>
 

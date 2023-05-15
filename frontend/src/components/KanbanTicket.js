@@ -17,14 +17,28 @@ function KanbanTicket(props) {
 
   return (
     <>
-    <div ref={drag} className={`container border rounded m-1 p-1 bg-light ${isDragging ? "opacity-25" : "opacity-100"}`}>
-              <div className="d-flex justify-content-around">
-                <div>
+    <div ref={drag} className={`container border border-5 rounded m-1 p-1 bg-light ${isDragging ? "opacity-25" : "opacity-100"}`}>
+              <div className="d-flex flex-column bd-highlight">
+                <div className='m-1 d-flex justify-content-around'>
+                    <i className="fa-sharp fa-solid fa-ticket mx-2"></i>
                     <span className="badge bg-light text-dark">{ticket.ticketNumber}</span>
-                    <br/>
-                    <div>{ticket.title}</div>
-                    <br/>
-                    <div>{ticket.description}</div>
+                </div>
+                <br/>
+                <div className=' d-flex justify-content-around'>
+                    <span className="badge bg-light text-dark mx-1">{ticket.title}</span>
+                </div>
+                <div className='d-flex justify-content-around'>
+                    <span className="badge bg-light text-dark mx-1">{ticket.description}</span>
+                </div>
+                <br/>
+                <div className='m-1 d-flex justify-content-around'>
+                    <span className="badge bg-warning text-dark mx-1">{ticket.ticketType}</span>
+                    <span className="badge bg-info text-dark mx-1">{ticket.ticketStatus}</span>
+                </div>
+                <div className='m-1 d-flex justify-content-around'>
+                    <span className="badge bg-light text-dark">{userIdToName(ticket.createdBy)}</span>
+                    <i className="fa-solid fa-right-long mx-2"></i>
+                    <span className="badge bg-light text-dark">{userIdToName(ticket.assignedTo)}</span>
                 </div>
               </div>
     </div>

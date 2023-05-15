@@ -55,7 +55,7 @@ const KanbanSection = (props) => {
         Object.values(specifictickets).map((it) => {
         return (
             <div key={it._id}>
-                <KanbanTicket key={it._id} ticket={it} />
+                <KanbanTicket ticket={it} />
             </div>
         );
         })}

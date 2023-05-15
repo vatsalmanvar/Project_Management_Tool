@@ -148,7 +148,7 @@ const ModifyTicket = (props) => {
                 </div>
                 </div>
 
-              <button type="submit" className="btn btn-primary">MODIFY</button>
+              <button type="submit" className="btn btn-primary">UPDATE</button>
             </form>
         </div>
     </div>

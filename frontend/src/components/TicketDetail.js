@@ -65,7 +65,7 @@ const TicketDetail  = (props) => {
       <div className="card">
       <div className="card-header">
         {ticket.ticketNumber}
-        <a href={`/project/${ticket.projectName}/modify-ticket/${ticket._id}`} className="btn btn-primary float-end">Modify Ticket</a>
+        <a href={`/project/${ticket.projectName}/modify-ticket/${ticket._id}`} className="btn btn-primary float-end">MODIFY TICKET</a>
 
       </div>
       <div className="card-body">
