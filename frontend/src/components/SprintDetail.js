@@ -60,6 +60,7 @@ const SprintDetail = (props) => {
         <div className="card">
           <div className="card-header inline">
             <h5 className='float-start'>{sprint.sprintName}</h5>
+            <a href={`modify-sprint/${sprintId}`} className="btn btn-primary float-end">Modify Sprint</a>
           </div>
 
           <div className="card-body"> 

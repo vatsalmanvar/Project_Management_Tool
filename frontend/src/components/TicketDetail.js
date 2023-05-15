@@ -10,6 +10,9 @@ const TicketDetail  = (props) => {
     const params = useParams();
     const [ticketId] = useState(params.ticketId)
     const [ticket, setTicket] = useState(null);
+    const [sprintId, setSprintId] = useState(null)
+    const [sprint, setSprint] = useState(null)
+    const [sprintName, setSprintName] = useState(null)
 
     const fetchTicket = async()=>{
       const response = await fetch(`http://localhost:5000/api/project/get-ticket/${ticketId}`, {
@@ -25,11 +28,32 @@ const TicketDetail  = (props) => {
       const date = new Date(tick.date);
       tick.date = `Created on: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
       setTicket(tick);
+      setSprintId(tick.currentSprint);
+    }
+    
+    const fetchSprint = async()=>{
+      if(sprintId){
+        const response = await fetch(`http://localhost:5000/api/sprint/${sprintId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+          }
+        });
+        const spr = await response.json();
+        setSprint(spr)
+        setSprintName(spr.sprintName)
+        console.log(spr.sprintName);
+      }
     }
     
     useEffect(() => {
-      fetchTicket();
+      fetchSprint();
+    }, [sprintId])
+    
+    useEffect(() => {
       if(users.length === 0) fetchUsers();
+      fetchTicket();
       // eslint-disable-next-line
     },[users])
 
@@ -41,6 +65,8 @@ const TicketDetail  = (props) => {
       <div className="card">
       <div className="card-header">
         {ticket.ticketNumber}
+        <a href={`/project/${ticket.projectName}/modify-ticket/${ticket._id}`} className="btn btn-primary float-end">Modify Ticket</a>
+
       </div>
       <div className="card-body">
         
@@ -69,6 +95,13 @@ const TicketDetail  = (props) => {
         <h5 className="card-title">Ticket Status</h5>
         <div className="card-text">
         <span className="badge text-bg-light mx-1">{ticket.ticketStatus}</span>
+        </div>
+        </div>
+
+        <div className="border border-1 rounded m-3 p-3">
+        <h5 className="card-title">Current Sprint</h5>
+        <div className="card-text">
+        <span className="badge text-bg-light mx-1">{ticket.currentSprint ? sprintName : "None"}</span>
         </div>
         </div>
 
@@ -119,7 +152,6 @@ const TicketDetail  = (props) => {
         </div>
         </div>
 
-        <a href={`/project/${ticket.projectName}/modify-ticket/${ticket._id}`} className="btn btn-primary">Modify Ticket</a>
       </div>
       <div className="card-footer text-body-secondary">
         {ticket.date}

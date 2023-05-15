@@ -180,10 +180,8 @@ const ProjectDetail  = (props) => {
             </div>
           </div>
           <div className="card-footer text-body-secondary">
-            {project.date}
-            <button disabled={project.createdBy!==currentUser} className="btn btn-danger float-end m-1" onClick={handleOnClickDeleteProject}>DELETE PROJECT</button>
-          
-            <button disabled={project.createdBy!==currentUser} type="button"  className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {project.date}          
+            <button disabled={project.createdBy!==currentUser} type="button"  className="btn btn-danger float-end m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
               DELETE PROJECT
             </button>
 

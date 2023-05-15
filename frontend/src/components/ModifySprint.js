@@ -6,40 +6,48 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-const CreateSprint = (props) => {
+const ModifySprint = (props) => {
     
     const params = useParams();
     let navigate = useNavigate();
     const context = useContext(projectContext);
     const {users, fetchUsers} = context;
-    const [sprintName, setSprintName] = useState("");
-    const [projectId] = useState(params.projectId)
     const [tickets, setTickets] = useState([])
     const [checkedTickets, setCheckedTickets] = useState([])
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-
+    const [sprint, setSprint] = useState([])
 
     const handleFormSubmit = async (e) => {
       e.preventDefault();
-      const response = await fetch("http://localhost:5000/api/sprint/create-sprint", {
-          method: 'POST',
+      const response = await fetch(`http://localhost:5000/api/sprint/modify-sprint/${params.sprintId}`, {
+          method: 'PUT',
           headers: {
               'Content-Type': 'application/json',
               'auth-token': localStorage.getItem('token')
           },
-          body: JSON.stringify({ sprintName, projectId, tickets:checkedTickets, startDate, endDate})
+          body: JSON.stringify({ tickets:checkedTickets})
       });
       const json = await response.json()
       console.log(json);
       if (json.success){
-        props.showAlert("Project Created Successfully", "success")
-        navigate(`/project/${projectId}`);
+        props.showAlert("Project Modified Successfully", "success")
+        navigate(`/project/${params.projectId}`);
       }
       else{
           props.showAlert("Invalid Credentials", "danger")
       }
     }
+
+    const fetchSprint = async()=>{
+        const response = await fetch(`http://localhost:5000/api/sprint/${params.sprintId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token' : localStorage.getItem('token')
+        }
+        });
+        const spr = await response.json();
+        setSprint(spr)
+      }
 
     const fetchTickets = async()=>{
       const response = await fetch(`http://localhost:5000/api/project/get-all-tickets/${params.projectId}`, {
@@ -64,19 +72,19 @@ const CreateSprint = (props) => {
         updatedList.splice(checkedTickets.indexOf(e.target.value), 1);
       }
       setCheckedTickets(updatedList);
-      console.log(updatedList, startDate, endDate)
     };
 
     useEffect(() => {
       if(users.length === 0) fetchUsers();
       fetchTickets();
+      fetchSprint();
       // eslint-disable-next-line
     }, [])
     
   return (
         <div className="card">
         <div className="card-header inline">
-          <h5 className='float-start'>CREATE NEW SPRINT</h5>
+          <h5 className='float-start'>MODIFY SPRINT</h5>
         </div>
 
         <div className="card-body">
@@ -84,7 +92,7 @@ const CreateSprint = (props) => {
 
               <div className="container border border-1 rounded m-3 p-3">
                 <label className="form-label">Name of Sprint</label>
-                <input type="text" className="form-control" name="SprintName" value={sprintName} onChange={e => setSprintName(e.target.value)}/>
+                <input disabled type="text" className="form-control" name="SprintName" value={sprint.sprintName}/>
               </div>
 
               <div className="container border border-1 rounded m-3 p-3">
@@ -105,38 +113,12 @@ const CreateSprint = (props) => {
                   })
                 }
               </div>
-              
-              <div className="row">
-              
-                <div className="col container border border-1 rounded m-3 p-3">
-                  <label className="form-label">Start Date</label>
-                    <DatePicker
-                      selected={startDate}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                      onChange={date => setStartDate(date)}
-                    />
-                </div>
-                
-                <div className="col container border border-1 rounded m-3 p-3">
-                  <label className="form-label">End Date</label>
-                  <DatePicker
-                      selected={endDate}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      onChange={date => setEndDate(date)}
-                    />
-                </div>
-              </div>
 
-              <button type="submit" className="btn btn-primary">CREATE</button>
+              <button type="submit" className="btn btn-primary">MODIFY</button>
             </form>
         </div>
     </div>
     )
 }
 
-export default CreateSprint
+export default ModifySprint

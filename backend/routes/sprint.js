@@ -41,9 +41,56 @@ router.post('/create-sprint', fetchuser , [
         })
 
         const savedSprint = await newSprint.save();
-        res.status(200).send({"success":"Sprint Saved Successfully"});
 
-        res.send();
+        for (let i = 0; i < tickets.length; i++) {
+            let tick = await Ticket.findById(tickets[i]);
+            tick.currentSprint = savedSprint._id;
+            tick.history.push({
+                user: req.user.id,
+                description: `Added To Sprint "${savedSprint.sprintName}"`
+            })
+            tick = await Ticket.findByIdAndUpdate(tickets[i], tick)
+        }
+
+        res.status(200).send({"success":"Sprint Saved Successfully"});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+// ROUTE 4: modify sprint: PUT "/api/sprint/modify-sprint/:sprintId". Login required
+
+router.put('/modify-sprint/:sprintId', fetchuser , async(req, res) => {
+    try {
+        const {tickets} = req.body;
+        const {sprintId} = req.params;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const userWantToModifySprint = req.user.id;
+        const user = await User.findById(userWantToModifySprint).select("-password")  
+
+        let sprint = await Sprint.findById(sprintId)
+        
+        for (let i = 0; i < tickets.length; i++) {
+            let tick = await Ticket.findById(tickets[i]);
+            if(!tick){return res.status(404).send("Ticket not found")}
+            sprint.tickets.push(tick._id);
+            tick.currentSprint = sprint._id;
+            tick.history.push({
+                user: req.user.id,
+                description: `Added To Sprint "${sprint.sprintName}"`
+            })
+            tick = await Ticket.findByIdAndUpdate(tickets[i], tick)
+        }
+
+        const updatedSprint = await Sprint.findByIdAndUpdate(sprintId, sprint)
+
+        res.status(200).send({"success":"Sprint Saved Successfully"});
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error")
