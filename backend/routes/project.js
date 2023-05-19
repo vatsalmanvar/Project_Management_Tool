@@ -162,7 +162,7 @@ router.delete('/delete-project', fetchuser, [
         const deletedTickets = await Ticket.deleteMany({projectName: project._id})
         const deletedProject =  await Project.findByIdAndDelete(project.id);
 
-        res.status(200).send(JSON.stringify({"success":"Project and all relavent tickets deleted Successfully"}));
+        res.status(200).send(JSON.stringify({"success":"Project and all relevant tickets deleted Successfully"}));
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error Occured")

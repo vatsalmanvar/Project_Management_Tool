@@ -30,7 +30,7 @@ const ModifyTicket = (props) => {
       const json = await response.json()
       console.log(json);
       navigate(`/ticket/${ticketId}`);
-      props.showAlert("Ticket Created Successfully", "success")
+      props.showAlert("Ticket Modified Successfully", "success")
     //   if (json.success){
     //       navigate("/home");
     //       props.showAlert("Project Created Successfully", "success")

@@ -110,8 +110,8 @@ const ProjectDetail  = (props) => {
         <div className="card">
           <div className="card-header inline">
             <h5 className='float-start'>{project.projectName}</h5>
-            <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
-            <button disabled={project.createdBy!==currentUser && project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickGoToSprint}>GO TO SPRINT</button>
+            <button disabled={project.createdBy!==currentUser && !project.admin.includes(currentUser)} className="btn btn-primary float-end m-1" onClick={handleOnClickModifyProject}>MODIFY PROJECT</button>
+            <button className="btn btn-primary float-end m-1" onClick={handleOnClickGoToSprint}>GO TO SPRINT</button>
             <button className="btn btn-primary float-end m-1" onClick={handleOnClickGoToKanban}>KANBAN VIEW</button>
           </div>
 

@@ -29,7 +29,7 @@ const ModifySprint = (props) => {
       const json = await response.json()
       console.log(json);
       if (json.success){
-        props.showAlert("Project Modified Successfully", "success")
+        props.showAlert("Sprint Modified Successfully", "success")
         navigate(`/project/${params.projectId}`);
       }
       else{

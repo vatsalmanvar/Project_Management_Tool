@@ -61,10 +61,7 @@ const KanbanFilter = () => {
           <div className="card-body"> 
 
             <div className="container border border-1 rounded p-3">
-            <h5 className="card-title">Created By</h5>
-            <div className="card-text">
-            <div className="border border-1 rounded m-3 p-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Ticket Status</label>
+            <label htmlFor="exampleInputEmail1" className="form-label">SPRINTS</label>
             <select defaultValue={"null"} className="form-select" value={filterBySprintId} onChange={e => setFilterBySprintId(e.target.value)} name="filter">
                 <option value="null">ALL</option>
                 {
@@ -75,8 +72,6 @@ const KanbanFilter = () => {
                     })
                 }
             </select>
-            </div>
-            </div>
             </div>
 
             <div className="container border border-1 rounded p-3">

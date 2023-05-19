@@ -33,7 +33,7 @@ const CreateSprint = (props) => {
       const json = await response.json()
       console.log(json);
       if (json.success){
-        props.showAlert("Project Created Successfully", "success")
+        props.showAlert("Sprint Created Successfully", "success")
         navigate(`/project/${projectId}`);
       }
       else{

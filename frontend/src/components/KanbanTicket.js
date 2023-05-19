@@ -27,9 +27,6 @@ function KanbanTicket(props) {
                 <div className=' d-flex justify-content-around'>
                     <span className="badge bg-light text-dark mx-1">{ticket.title}</span>
                 </div>
-                <div className='d-flex justify-content-around'>
-                    <span className="badge bg-light text-dark mx-1">{ticket.description}</span>
-                </div>
                 <br/>
                 <div className='m-1 d-flex justify-content-around'>
                     <span className="badge bg-warning text-dark mx-1">{ticket.ticketType}</span>

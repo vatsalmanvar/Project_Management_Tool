@@ -11,7 +11,7 @@ const TicketDetail  = (props) => {
     const [ticketId] = useState(params.ticketId)
     const [ticket, setTicket] = useState(null);
     const [sprintId, setSprintId] = useState(null)
-    const [sprint, setSprint] = useState(null)
+    //const [sprint, setSprint] = useState(null)
     const [sprintName, setSprintName] = useState(null)
 
     const fetchTicket = async()=>{
@@ -41,7 +41,7 @@ const TicketDetail  = (props) => {
           }
         });
         const spr = await response.json();
-        setSprint(spr)
+        //setSprint(spr)
         setSprintName(spr.sprintName)
         console.log(spr.sprintName);
       }
@@ -134,7 +134,7 @@ const TicketDetail  = (props) => {
               return (
                 <div key={it._id} className="border border-3 rounded p-2 m-1">
                   <span className="badge bg-info text-dark mx-1">{userIdToName(it.user)}</span>
-                  <span className="badge text-bg-warning mx-1"> {date.getDate()}/{date.getMonth()}/{date.getFullYear()} {days[date.getDay()]} {date.getHours()}:{date.getMinutes()}:{date.getSeconds()} </span> 
+                  <span className="badge text-bg-warning mx-1"> {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()} {days[date.getDay()]} {date.getHours()}:{date.getMinutes()}:{date.getSeconds()} </span> 
                     <br/>
                     {
                     it.description.map((it1)=>{
