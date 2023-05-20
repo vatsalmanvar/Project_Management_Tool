@@ -129,4 +129,32 @@ router.get('/:sprintId', fetchuser, async (req, res) => {
     }
 })
 
+router.post('/inactive-sprint/:sprintId', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const {sprintId} = req.params;
+
+        const sprint = await Sprint.findById(sprintId)
+        if(!sprint) res.status(404).send({"result":"Sprint not found"})
+        
+        for (let i = 0; i < sprint.tickets.length; i++) {
+            let tick = await Ticket.findById(sprint.tickets[i]);
+            if(!tick){return res.status(404).send("Ticket not found")}
+            tick.currentSprint = null;
+            tick.history.push({
+                user: req.user.id,
+                description: `Sprint "${sprint.sprintName}" inactivated`
+            })
+            tick = await Ticket.findByIdAndUpdate(sprint.tickets[i], tick)
+        }
+        sprint.status="Inactive"
+        const updatedSprint = await Sprint.findByIdAndUpdate(sprintId, sprint)
+
+        res.status(200).send({"success":"Sprint Inactivated"});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error Occurred")
+    }
+})
+
 module.exports = router;

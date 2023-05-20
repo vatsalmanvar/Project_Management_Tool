@@ -31,7 +31,7 @@ const SprintSchema = new Schema({
     },
     status:{
         type: String,
-        default: "Inactive"
+        default: "Active"
     },
     history:{
         type: [String],

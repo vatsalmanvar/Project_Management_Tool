@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import projectContext from '../context/project/projectContext';
 import TicketItem from './TicketItem';
 
 
 const SprintDetail = (props) => {
+  const navigate = useNavigate();
   const params = useParams();
   const [sprintId, setSprintId] = useState(params.sprintId);
   const [sprint, setSprint] = useState([]);
@@ -49,6 +50,23 @@ const SprintDetail = (props) => {
     if(users.length===0) fetchUsers();
     fetchSprint();
   }, [])
+
+  const handleOnClickModifySprint = ()=>{
+    navigate(`modify-sprint/${sprintId}`)
+  }
+
+  const handleOnClickInactive = async()=>{
+    const response = await fetch(`http://localhost:5000/api/sprint/inactive-sprint/${sprintId}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'auth-token' : localStorage.getItem('token')
+      }
+    });
+    const json = await response.json();
+    console.log(json)
+    navigate(`/project/${sprint.projectId}`)
+  }
   
   return (
     <div className="container">
@@ -60,7 +78,12 @@ const SprintDetail = (props) => {
         <div className="card">
           <div className="card-header inline">
             <h5 className='float-start'>{sprint.sprintName}</h5>
-            <a href={`modify-sprint/${sprintId}`} className="btn btn-primary float-end">MODIFY SPRINT</a>
+            <button disabled={sprint.status==="Inactive"} className="btn btn-primary float-end m-1" onClick={handleOnClickModifySprint}>MODIFY SPRINT</button>
+            
+            {sprint.status==="Active"
+              ?<button disabled={sprint.status==="Inactive"} className="btn btn-primary float-end m-1" onClick={handleOnClickInactive}>INACTIVE</button>
+              :<div></div>
+            }
           </div>
 
           <div className="card-body"> 
